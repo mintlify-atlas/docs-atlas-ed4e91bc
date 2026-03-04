@@ -1,0 +1,487 @@
+---
+title: 'Mod Compatibility'
+description: 'How Typist achieves compatibility with other Balatro mods'
+---
+
+Typist is designed to work seamlessly with the Balatro modding ecosystem. This page explains the compatibility architecture and how to integrate with Typist.
+
+## Compatibility Strategy
+
+Typist uses a non-invasive compatibility approach:
+
+1. **Detection** - Check if a mod is loaded using `pcall(require, "...")`
+2. **Adaptation** - Modify behavior to work with the detected mod
+3. **Delegation** - Use the other mod's implementation when better
+4. **Isolation** - Avoid conflicts by moving keybindings behind leader keys
+
+## Compatibility Modules
+
+All compatibility logic lives in `compat/` directory:
+
+```
+compat/
+├── init.lua           # Compatibility initializer
+├── debugplus.lua      # DebugPlus integration
+├── fhotkey.lua        # FlushHotkeys integration
+├── multiplayer.lua    # Multiplayer integration
+└── taikomochi.lua     # Taikomochi integration
+```
+
+### compat/init.lua
+
+The main compatibility initializer that runs all compatibility modules:
+
+```lua
+return function()
+  require("typist.compat.fhotkey").init()
+  require("typist.compat.debugplus").init()
+end
+```
+
+<Note>
+Compatibility modules are loaded during mod initialization, before the entrypoint is registered.
+</Note>
+
+## Supported Mods
+
+### DebugPlus
+
+**Compatibility Module:** `compat/debugplus.lua`
+
+**Problem:** DebugPlus uses `/` to toggle the debug console, which conflicts with Typist's joker leader key.
+
+**Solution:** Move DebugPlus console toggle behind `Ctrl` key:
+
+```lua
+M.init = function()
+  if not pcall(require, "debugplus.console") then return end
+  
+  local held_keys = G.CONTROLLER.held_keys
+  local consoleHandleKey = require("debugplus.console").consoleHandleKey
+  
+  if not consoleHandleKey then
+    log("DebugPlus v1.5.0+ is not yet supported.")
+    return
+  end
+  
+  log("old DebugPlus detected!! moving it behind the ctrl key")
+  
+  local consoleOpen = false
+  require("debugplus.console").consoleHandleKey = function(key)
+    -- Only handle keys when console is open or Ctrl is held
+    if consoleOpen 
+       or held_keys[layout.debug_leader_left]
+       or held_keys[layout.debug_leader_right]
+    then
+      local the_thing = consoleHandleKey(key)
+      consoleOpen = (not the_thing or key == "/") 
+                    and key ~= "escape"
+      return the_thing
+    end
+    return true  -- Let Typist handle the key
+  end
+end
+```
+
+**User Impact:**
+- Console now opens with `Ctrl+/` instead of `/`
+- `Ctrl+Shift+/` toggles console preview
+- All other console commands (backspace, arrows) work normally
+- Joker selection with `/` works without conflicts
+
+**Version Support:**
+- ✅ DebugPlus v1.4.1 and earlier
+- ⚠️ DebugPlus v1.5.0+ not yet supported (different API)
+
+### FlushHotkeys
+
+**Compatibility Module:** `compat/fhotkey.lua`
+
+**Problem:** FlushHotkeys provides best hand selection that conflicts with Typist's implementation.
+
+**Solution:** Disable FlushHotkeys keyboard handling and delegate to its best hand algorithm:
+
+```lua
+M.init = function()
+  if not fhotkey then return end
+  
+  log("FlushHotkeys detected, unhooking it from the keyboard :)")
+  
+  -- Restore original keyboard handler
+  Controller.key_press_update = assert(fhotkey.FUNCS.keyupdate_ref)
+end
+
+M.best_hand_impl = function()
+  if not fhotkey then 
+    return require("typist.mod.hand").best_hand 
+  end
+  
+  log("FlushHotkeys detected, will use its best_hand implementation")
+  
+  return function()
+    fhotkey.FUNCS.select_best_hand(
+      G.hand.cards,
+      { accept_flush = true, accept_str = true, accept_oak = true }
+    )
+  end
+end
+```
+
+**User Impact:**
+- FlushHotkeys keyboard shortcuts are disabled
+- Typist uses FlushHotkeys' superior best hand algorithm
+- Best hand selection works through Typist's cheat layer (`p+b` or `q+b`)
+
+**Why This Works:**
+FlushHotkeys has a more sophisticated hand evaluation algorithm that accounts for joker effects. Typist defers to its expertise while providing the keyboard interface.
+
+### Multiplayer
+
+**Compatibility Module:** `compat/multiplayer.lua`
+
+**Problem:** Multiplayer mod adds lobby and PvP ready button that need keyboard shortcuts.
+
+**Solution:** Provide keyboard shortcuts for multiplayer-specific UI:
+
+```lua
+local M = {}
+
+M.lobby_start_game = function()
+  local mp_start = G.MAIN_MENU_UI:get_UIE_by_ID("lobby_menu_start")
+  if mp_start then 
+    G.FUNCS.lobby_start_game(mp_start) 
+  end
+end
+
+M.pvp_toggle_ready = function(e)
+  if e.config.button == "pvp_ready_button" then 
+    G.FUNCS.pvp_ready_button(e) 
+  end
+  
+  if e.config.button == "mp_toggle_ready" then
+    G.FUNCS.mp_toggle_ready(e)
+    return true
+  end
+end
+
+return M
+```
+
+**Integration Points:**
+
+```lua
+-- In state_handlers[G.STATES.MENU]:
+if key == layout.proceed then
+  local the_play_button = G.MAIN_MENU_UI:get_UIE_by_ID("main_menu_play")
+  if the_play_button then
+    G.FUNCS.setup_run(the_play_button)
+  else
+    -- Multiplayer lobby detected
+    multiplayer_compat.lobby_start_game()
+  end
+end
+
+-- In state_handlers[G.STATES.BLIND_SELECT]:
+if key == layout.proceed or key == layout.enter then
+  local e = G.blind_select_opts[...]:get_UIE_by_ID("select_blind_button")
+  
+  -- Check for PvP ready button
+  if not multiplayer_compat.pvp_toggle_ready(e) then
+    G.FUNCS.select_blind(e)
+  end
+end
+```
+
+**User Impact:**
+- `Space` starts game from multiplayer lobby
+- `Space` toggles ready in PvP mode
+- Seamless integration with multiplayer workflows
+
+### Taikomochi
+
+**Compatibility Module:** `compat/taikomochi.lua`
+
+**Problem:** Taikomochi adds a "Restart Ante" button on game over screen.
+
+**Solution:** Provide keyboard shortcut for zen restart:
+
+```lua
+local M = {}
+
+M.zen_restart_ante = function()
+  if G.OVERLAY_MENU:get_UIE_by_ID("zen_restart_ante") then
+    G.FUNCS.zen_restart_ante()
+    return true
+  end
+end
+
+return M
+```
+
+**Integration:**
+
+```lua
+-- In state_handlers[G.STATES.MENU]:
+if key == layout.enter then
+  -- Start endless mode
+  if new_run_button.config.id == "from_game_won" then
+    G.FUNCS:exit_overlay_menu()
+  
+  -- Or if lost and have Taikomochi, retry the ante
+  else
+    require("typist.compat.taikomochi").zen_restart_ante()
+  end
+end
+```
+
+**User Impact:**
+- `Enter` on game over screen retries the ante (if Taikomochi is installed)
+- Gracefully falls back if Taikomochi is not installed
+
+## Talisman Compatibility
+
+Talisman is a mod that adds arbitrary precision numbers to Balatro. Typist includes defensive compatibility:
+
+```lua
+-- In state_handlers[G.STATES.SHOP]:
+local to_big = to_big or function(x) return x end
+
+if key == layout.reroll
+   and (to_big(G.GAME.dollars) - to_big(G.GAME.current_round.reroll_cost)
+        >= to_big(G.GAME.bankrupt_at))
+then
+  G.FUNCS.reroll_shop()
+end
+```
+
+**How It Works:**
+- If Talisman is loaded, use its `to_big()` function for number comparisons
+- Otherwise, use identity function (no conversion needed)
+- Ensures dollar amount checks work with both number types
+
+## SMODS Compatibility
+
+Typist detects and supports SMODS (Steamodded):
+
+```lua
+-- In state_handlers.lua:
+if G.STATES.SMODS_BOOSTER_OPENED then
+  M[G.STATES.SMODS_BOOSTER_OPENED] = M[G.STATES.STANDARD_PACK]
+end
+```
+
+**Features:**
+- Custom booster packs created with SMODS work with Typist
+- Same keyboard controls as standard packs
+- Multiple card selection support
+
+**SMODS Asset Loading:**
+
+```lua
+-- In mod/smods.lua:
+if SMODS then
+  SMODS.Atlas {
+    key = "modicon",
+    path = "avatar.png",
+    px = 34,
+    py = 34
+  }
+end
+```
+
+## Compatibility Testing Pattern
+
+Typist uses this pattern for safe mod detection:
+
+```lua
+local success, module = pcall(require, "other_mod.module")
+
+if success and module then
+  -- Mod is installed, adapt behavior
+  log("Mod detected, enabling compatibility")
+  -- ... compatibility code
+else
+  -- Mod not installed, use default behavior
+  log("Mod not detected, using default behavior")
+  -- ... default code
+end
+```
+
+<Warning>
+Never use `require()` directly for optional mods. Always use `pcall(require, ...)` to avoid crashes.
+</Warning>
+
+## Creating Compatibility Layers
+
+To add compatibility for a new mod:
+
+<Steps>
+  <Step title="Create compatibility module">
+    Create a new file in `compat/` directory:
+    ```lua
+    -- compat/newmod.lua
+    local M = {}
+    
+    M.init = function()
+      if not pcall(require, "newmod") then return end
+      
+      log("NewMod detected, enabling compatibility")
+      -- Compatibility logic here
+    end
+    
+    return M
+    ```
+  </Step>
+  
+  <Step title="Register in compat/init.lua">
+    Add initialization call:
+    ```lua
+    return function()
+      require("typist.compat.fhotkey").init()
+      require("typist.compat.debugplus").init()
+      require("typist.compat.newmod").init()  -- Add this
+    end
+    ```
+  </Step>
+  
+  <Step title="Implement integration points">
+    Use the compatibility module in state handlers:
+    ```lua
+    local newmod_compat = require("typist.compat.newmod")
+    
+    -- In a state handler:
+    if newmod_compat.should_handle(key) then
+      newmod_compat.handle(key)
+    end
+    ```
+  </Step>
+  
+  <Step title="Test with and without the mod">
+    Ensure Typist works correctly both when the target mod is:
+    - Installed and active
+    - Not installed
+    - Installed but disabled
+  </Step>
+</Steps>
+
+## Compatibility Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Use pcall" icon="shield-check">
+    Always use `pcall(require, ...)` for optional dependencies
+  </Card>
+  
+  <Card title="Log Detection" icon="message">
+    Log when a mod is detected to help with debugging
+  </Card>
+  
+  <Card title="Graceful Degradation" icon="arrow-down">
+    Provide fallback behavior when mod is not present
+  </Card>
+  
+  <Card title="Delegate When Better" icon="handshake">
+    Use other mod's implementation if superior
+  </Card>
+  
+  <Card title="Avoid Conflicts" icon="ban">
+    Move conflicting keybindings behind leader keys
+  </Card>
+  
+  <Card title="Test Extensively" icon="vial">
+    Test all mod combinations that might interact
+  </Card>
+</CardGroup>
+
+## Known Compatibility Issues
+
+### DebugPlus v1.5.0+
+
+**Status:** Not yet supported
+
+**Reason:** v1.5.0 changed the console API in a way that's incompatible with Typist's hook.
+
+**Workaround:** Use DebugPlus v1.4.1 or earlier, or rebind Typist's joker leader key:
+
+```lua
+-- typist-overrides.lua
+return function(layout)
+  return {
+    cardarea_map = {
+      -- Move jokers from "/" to "["
+      ["["] = function() return G.jokers end,
+    }
+  }
+end
+```
+
+### Future Compatibility
+
+Typist's architecture makes it easy to add new compatibility layers:
+
+- Mod detection is isolated in `compat/` modules
+- State handlers use dependency injection for compat modules
+- No global state pollution
+- Clean separation of concerns
+
+This means new mods can be supported by adding a single file to `compat/` and a one-line init call.
+
+## API for Other Mods
+
+If you're developing a Balatro mod and want to integrate with Typist:
+
+### Check if Typist is loaded
+
+```lua
+local typist_loaded = pcall(require, "typist.mod.layout")
+
+if typist_loaded then
+  -- Typist is installed, adjust behavior
+end
+```
+
+### Access Typist's public API
+
+```lua
+local layout = require("typist.mod.layout")
+
+-- Get current keybinding for proceed action
+local proceed_key = layout.proceed  -- "space"
+
+-- Check current keyboard layout
+local current_layout = layout.current_layout  -- "qwerty", "dvorak", "workman"
+```
+
+### Extend card area handling
+
+```lua
+local cardarea_handler = require("typist.mod.cardarea-handler")
+
+-- Create a custom card area
+local my_area = setmetatable({}, {
+  __index = { __typist_custom_area = true }
+})
+my_area.cards = { ... }
+my_area.highlighted = { ... }
+
+-- Use Typist's handler
+if cardarea_handler(my_area, key, held_keys) then
+  -- Key was handled
+end
+```
+
+### Extend state handlers
+
+```lua
+local state_handlers = require("typist.mod.state-handlers")
+
+-- Add handler for custom game state
+state_handlers[G.STATES.CUSTOM_STATE] = function(key, held_keys)
+  -- Your keyboard handling logic
+end
+```
+
+## See Also
+
+- [Architecture](/technical/architecture) - Understanding Typist's design
+- [Modules](/technical/modules) - Public API reference
+- [Configuration](/guide/configuration) - User customization options

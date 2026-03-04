@@ -1,0 +1,125 @@
+---
+title: Frequently Asked Questions
+description: Common questions about the Typist mod for Balatro
+---
+
+## General Questions
+
+<Accordion title="What is the Typist mod?">
+Typist is a comprehensive keyboard-driven UX mod for Balatro that adds keybindings for all gameplay actions. It enables you to play the entire game without using your mouse, making gameplay faster and more efficient for keyboard-focused players.
+</Accordion>
+
+<Accordion title="Is Typist compatible with other mods?">
+Yes! Typist is compatible with several popular mods including:
+
+- **Steamodded** - The popular mod loader (Typist uses the Lovely injector which Steamodded also depends on)
+- **DebugPlus v1.4.x** - Hold Ctrl as a leader for enhanced debug features
+- **BalatroMultiplayer** - Full support for multiplayer sessions with special keybinds for PvP blinds
+- **Taikomochi** - Enter key retries the last ante in zen mode runs
+- **FlushHotkeys** - Integrated for best hand selection (conflicts are automatically resolved)
+
+See the [Compatibility](/technical/compatibility) page for full details.
+</Accordion>
+
+<Accordion title="Which keyboard layouts are supported?">
+Typist supports three keyboard layouts out of the box:
+
+- **QWERTY** (default)
+- **Dvorak**
+- **Workman**
+
+Positional keys (like `asdf` for toggling cards) are kept consistent across layouts, while mnemonic keys (like `r` for reroll) remain the same.
+</Accordion>
+
+<Accordion title="Can I customize the keybindings?">
+Yes! You can create a `typist-overrides.lua` file in your Balatro directory to customize any keybinding to your preference. See the [Configuration](/guide/configuration) guide for details.
+</Accordion>
+
+<Accordion title="Do I need Steamodded to use Typist?">
+No, but it's recommended. Typist only requires the **Lovely** code injector. If you have Steamodded installed, you already have Lovely. If not, you just need to install Lovely separately (see [Installation](/installation)).
+</Accordion>
+
+## Gameplay Questions
+
+<Accordion title="How do I select cards during gameplay?">
+Use the home row keys to toggle cards:
+- **QWERTY**: `asdfghjkl` for the first 9 cards
+- **Dvorak**: `aoeuidhtns` for the first 9 cards
+- **Workman**: `asdhgjklf` for the first 9 cards
+
+Press the corresponding key once to select a card, press again to deselect it.
+</Accordion>
+
+<Accordion title="What does the 'cheat layer' do?">
+The cheat layer (accessed by holding `p`) provides quick hand selection shortcuts:
+
+- `b` - Select the best hand from available cards
+- `f` - Fish for the best flush in your hand
+- `,` - Select the leftmost 5 cards
+- `.` - Select the rightmost 5 cards
+
+These features come from the integrated FlushHotkeys functionality.
+</Accordion>
+
+<Accordion title="How do I use jokers and consumables with the keyboard?">
+- Hold `[` to access the **joker layer** for selecting/moving/selling jokers
+- Hold `'` to access the **consumables layer** for selecting/using/selling consumables
+- Use the **number row** (1-9, 0) as a convenience layer for quick access to both jokers and consumables
+</Accordion>
+
+<Accordion title="What does the backslash (\\) key do?">
+The backslash key lets you "unacorn" a card - drag it out of its area. This is particularly useful for snatching a joker away before the Amber Acorn boss can shuffle it!
+</Accordion>
+
+<Accordion title="How do I sort my hand?">
+While in a round, use the bottom row keys:
+- `c` - Sort by suit
+- `v` - Sort by rank
+- `b` - Sort by enhancement and score (glass cards to the end, lucky and mult cards to the beginning)
+
+Note: These keys have different functions in the shop!
+</Accordion>
+
+## Technical Questions
+
+<Accordion title="Which Balatro versions are supported?">
+Typist currently supports:
+- Balatro **1.0.1n**
+- Balatro **1.0.1o**
+
+The mod is actively maintained for compatibility with new versions.
+</Accordion>
+
+<Accordion title="Where are the mod files installed?">
+The installation location varies by platform:
+
+- **Windows**: `%AppData%/Balatro/Mods/balatro-typist-mod`
+- **macOS**: `~/Library/Application Support/Balatro/Mods/balatro-typist-mod`
+- **Linux (Steam/Proton)**: `~/.local/share/Steam/steamapps/compatdata/2379780/pfx/drive_c/users/steamuser/AppData/Roaming/Balatro/Mods/balatro-typist-mod`
+</Accordion>
+
+<Accordion title="How do I change my keyboard layout?">
+Create a file called `typist-layout` in your Balatro save directory containing one of: `qwerty`, `dvorak`, or `workman`. The mod will read this file on startup.
+</Accordion>
+
+<Accordion title="Can I see all keybindings at once?">
+Yes! Check the [Keybindings Reference](/guide/keybindings) for a complete list of all available keybindings organized by context.
+</Accordion>
+
+## Getting Help
+
+<Accordion title="Where can I get help or report bugs?">
+You can:
+
+- Join the discussion on the official [Balatro Discord](https://discord.com/invite/balatro) in [Typist's thread](https://discord.com/channels/1116389027176787968/1349532762259980308)
+- Report issues on [GitHub](https://github.com/janw4ld/balatro-typist-mod/issues)
+- Check the [Troubleshooting](/community/troubleshooting) guide for common issues
+</Accordion>
+
+<Accordion title="Is there a video tutorial?">
+Yes! Check out the [video demo](https://www.youtube.com/watch?v=k2l6-RqTk1c) on YouTube to see Typist in action.
+</Accordion>
+
+<Accordion title="How can I contribute to the project?">
+Contributions are welcome! See the [Contributing Guide](/community/contributing) for information on how to submit bug reports, feature requests, or code contributions.
+</Accordion>

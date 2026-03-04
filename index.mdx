@@ -1,97 +1,229 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: Typist - Keyboard-driven UX for Balatro
+description: Play Balatro entirely with your keyboard using vim-inspired keybindings and multi-layout support
+mode: custom
 ---
 
-## Setting up
+<div className="relative overflow-hidden bg-gradient-to-br from-[#0a0e1a] via-[#1a1d27] to-[#0a0e1a] dark:from-[#0a0e1a] dark:via-[#1a1d27] dark:to-[#0a0e1a] py-20 px-4 sm:px-6 lg:px-8">
+  <div className="max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* Hero Text */}
+      <div className="text-left">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+          Master Balatro with Your Keyboard
+        </h1>
+        <p className="text-lg sm:text-xl text-gray-300 dark:text-gray-300 mb-8 max-w-2xl">
+          Typist brings fully keyboard-driven gameplay to Balatro with vim-inspired keybindings. Never touch your mouse again.
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <a
+            href="/installation"
+            className="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-[#238636] rounded-lg hover:bg-[#2ea043] transition-colors"
+          >
+            Get Started
+          </a>
+          <a
+            href="/guide/keybindings"
+            className="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-white/10 border border-white/30 rounded-lg hover:bg-white/20 hover:border-white/50 transition-colors"
+          >
+            View Keybindings
+          </a>
+        </div>
+      </div>
 
-Get your documentation site up and running in minutes.
+      {/* Hero Image */}
+      <div className="relative hidden lg:block">
+        <div className="relative rounded-2xl overflow-hidden border border-purple-500/70 shadow-[0_0_40px_10px_rgba(106,90,205,0.7)]">
+          <img
+            src="https://raw.githubusercontent.com/janw4ld/balatro-typist-mod/main/assets/typist-joker-hd.png"
+            alt="Typist mod logo - a modified Four Fingers joker with five fingers"
+            noZoom
+            className="w-full h-auto"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+{/* Quick Start Section */}
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+    Quick start
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Get Typist running in minutes with these simple steps
+  </p>
 
-## Make it yours
+  <Steps>
+    <Step title="Install Lovely injector">
+      Download and install the [Lovely](https://github.com/ethangreen-dev/lovely-injector) code injector, which is required for Typist to work. If you already have Steamodded installed, you can skip this step.
+      
+      ```bash
+      # Follow Lovely installation instructions for your platform
+      # Windows, macOS, and Linux are supported
+      ```
+    </Step>
 
-Design a docs site that looks great and empowers your users.
+    <Step title="Download Typist">
+      Clone or download the Typist mod to your Balatro Mods directory:
+      
+      - **Windows**: `%AppData%/Balatro/Mods`
+      - **macOS**: `~/Library/Application Support/Balatro/Mods`
+      - **Linux (Steam)**: `~/.local/share/Steam/steamapps/compatdata/2379780/pfx/drive_c/users/steamuser/AppData/Roaming/Balatro/Mods`
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+      ```bash
+      git clone https://github.com/kasimeka/balatro-typist-mod.git
+      ```
+    </Step>
 
-## Create beautiful pages
+    <Step title="Launch Balatro">
+      Start the game and Typist will automatically load. Press `Space` to skip the splash screen and begin playing with keyboard controls.
+    </Step>
 
-Everything you need to create world-class documentation.
+    <Step title="Learn the basics">
+      Toggle hand cards with `asdfgh` keys, play your hand with `Space`, and discard with `Tab`. Check the [keybindings reference](/guide/keybindings) for the full list.
+    </Step>
+  </Steps>
+</div>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+{/* Features Grid */}
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+    Key features
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Everything you need for a seamless keyboard-driven Balatro experience
+  </p>
 
-## Need inspiration?
+  <CardGroup cols={2}>
+    <Card title="Vim-inspired keybindings" icon="keyboard" href="/guide/keybindings">
+      Complete keyboard control with intuitive, mnemonic keybindings inspired by vim
+    </Card>
+    <Card title="Multiple keyboard layouts" icon="language" href="/guide/keyboard-layouts">
+      Native support for QWERTY, Dvorak, and Workman layouts
+    </Card>
+    <Card title="Card area layers" icon="layer-group" href="/guide/features">
+      Dedicated leader keys for jokers, consumables, and hand management
+    </Card>
+    <Card title="Cheat layer" icon="wand-magic-sparkles" href="/guide/features">
+      Quick selection of best hands and flushes with the cheat layer
+    </Card>
+    <Card title="Custom overrides" icon="sliders" href="/guide/configuration">
+      Override any keybinding to match your personal preferences
+    </Card>
+    <Card title="Mod compatibility" icon="puzzle-piece" href="/technical/compatibility">
+      Works seamlessly with DebugPlus, Multiplayer, and other popular mods
+    </Card>
+  </CardGroup>
+</div>
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+{/* Resources Section */}
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+    Resources
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Learn more and get support
+  </p>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <a
+      href="https://discord.com/channels/1116389027176787968/1349532762259980308"
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#242b2c] dark:hover:border-[#242b2c] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">
+          Discord Community
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Join the discussion on the official Balatro Discord server
+        </p>
+        <div className="flex items-center text-sm text-[#242b2c] dark:text-[#242b2c] group-hover:text-[#242b2c] dark:group-hover:text-[#242b2c]">
+          Join the conversation
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="https://github.com/kasimeka/balatro-typist-mod"
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#242b2c] dark:hover:border-[#242b2c] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">
+          GitHub Repository
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          View source code, report issues, and contribute to development
+        </p>
+        <div className="flex items-center text-sm text-[#242b2c] dark:text-[#242b2c] group-hover:text-[#242b2c] dark:group-hover:text-[#242b2c]">
+          View on GitHub
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="https://www.youtube.com/watch?v=k2l6-RqTk1c"
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#242b2c] dark:hover:border-[#242b2c] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">
+          Video Demo
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Watch Typist in action with this video demonstration
+        </p>
+        <div className="flex items-center text-sm text-[#242b2c] dark:text-[#242b2c] group-hover:text-[#242b2c] dark:group-hover:text-[#242b2c]">
+          Watch video
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="/community/faq"
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#242b2c] dark:hover:border-[#242b2c] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">
+          FAQ & Troubleshooting
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Find answers to common questions and solve issues
+        </p>
+        <div className="flex items-center text-sm text-[#242b2c] dark:text-[#242b2c] group-hover:text-[#242b2c] dark:group-hover:text-[#242b2c]">
+          Get help
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+{/* Closing CTA */}
+<div className="mt-20 mb-16 max-w-5xl mx-auto px-6">
+  <div className="rounded-2xl bg-gradient-to-br from-[#1a1d27] to-[#242838] dark:from-[#1a1d27] dark:to-[#242838] border border-[#27272a] dark:border-[#27272a] p-8 sm:p-12 text-center">
+    <h2 className="text-3xl font-bold text-white mb-4">
+      Ready to play Balatro your way?
+    </h2>
+    <p className="text-lg text-gray-300 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+      Install Typist today and experience the most efficient way to play Balatro
+    </p>
+    <a
+      href="/installation"
+      className="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-[#238636] rounded-lg hover:bg-[#2ea043] transition-colors"
+    >
+      Get Started Now
+    </a>
+  </div>
+</div>

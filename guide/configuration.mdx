@@ -1,0 +1,657 @@
+---
+title: Configuration
+description: Customize Typist keybindings and behavior with typist-overrides.lua
+---
+
+Typist supports extensive customization through the `typist-overrides.lua` file. This allows you to modify keybindings, change layouts, and adjust behavior to suit your preferences.
+
+## Configuration File Location
+
+Create a file named `typist-overrides.lua` in your Balatro save directory:
+
+- **Windows:** `%AppData%/Balatro/typist-overrides.lua`
+- **Mac:** `~/Library/Application Support/Balatro/typist-overrides.lua`
+- **Linux (Proton/Wine):** `~/.local/share/Steam/steamapps/compatdata/2379780/pfx/drive_c/users/steamuser/AppData/Roaming/Balatro/typist-overrides.lua`
+
+<Note>
+The file must be named exactly `typist-overrides.lua` (all lowercase, with hyphen).
+</Note>
+
+## Override File Format
+
+The override file can return either:
+
+1. **A function** that receives the layout table and returns modifications
+2. **A table** of overrides to merge with the default layout
+
+### Method 1: Function (Recommended)
+
+```lua
+return function(layout)
+  -- Modify layout here
+  layout.some_key = "new_value"
+  
+  -- Return the modified layout
+  return layout
+end
+```
+
+### Method 2: Table
+
+```lua
+return {
+  some_key = "new_value",
+  another_key = "another_value",
+}
+```
+
+<Tip>
+Use the function method for access to the original layout values and more complex logic.
+</Tip>
+
+## Basic Examples
+
+### Changing a Single Keybinding
+
+<Accordion title="Example: Change Reroll Key">
+```lua
+return function(layout)
+  -- Change reroll from 'r' to 'f5'
+  layout.reroll = "f5"
+  return layout
+end
+```
+</Accordion>
+
+### Changing Multiple Keybindings
+
+<Accordion title="Example: Customize Shop Keys">
+```lua
+return function(layout)
+  -- Use different buy keys
+  layout.buy = "b"
+  layout.buy_and_use = "u"
+  
+  return layout
+end
+```
+</Accordion>
+
+### Swapping Leader Keys
+
+<Accordion title="Example: Swap Hand and Joker Leaders">
+```lua
+return function(layout)
+  -- Swap hand and joker leader keys
+  local temp = layout.cardarea_map
+  
+  -- This requires knowing the current layout
+  if layout.current_layout == "qwerty" then
+    -- Swap / and [
+    layout.cardarea_map = {
+      ["/"] = temp["["],  -- Hand now on /
+      ["["] = temp["/"],  -- Jokers now on [
+      ["'"] = temp["'"],  -- Consumables unchanged
+    }
+  end
+  
+  return layout
+end
+```
+</Accordion>
+
+## Available Configuration Options
+
+### Global Actions
+
+```lua
+layout.proceed = "space"        -- Main proceed button
+layout.dismiss = "tab"          -- Main dismiss button  
+layout.enter = "return"         -- Enter key
+layout.escape = "escape"        -- Escape key
+layout.reroll = "r"             -- Reroll shop/boss
+layout.skip = "s"               -- Skip blind
+layout.unacorn_card = "\\"      -- Lift card (anti-shuffle)
+```
+
+### Layout-Dependent Keys
+
+These vary by keyboard layout:
+
+```lua
+layout.preview_deck = "z"       -- Hold to preview deck (QWERTY)
+layout.buy = "c"                -- Buy in shop (QWERTY)
+layout.buy_and_use = "v"        -- Buy and use (QWERTY)
+```
+
+### Hand Management
+
+```lua
+layout.hand = {
+  deselect_all = "n",           -- Deselect all cards (QWERTY)
+  invert_selection = "m",       -- Invert selection (QWERTY)
+  left5 = ",",                  -- Select leftmost 5 (QWERTY)
+  right5 = ".",                 -- Select rightmost 5 (QWERTY)
+  reorder_by_enhancements = "b", -- Sort by enhancement (QWERTY)
+  sort_by_rank = "v",           -- Sort by rank (QWERTY)
+  sort_by_suit = "c",           -- Sort by suit (QWERTY)
+}
+```
+
+### Multi-Select Modifiers
+
+```lua
+layout.select_multiple_right = "rshift"  -- Right shift
+layout.select_multiple_left = "lshift"   -- Left shift
+```
+
+### Debug Leaders (DebugPlus Integration)
+
+```lua
+layout.debug_leader_left = "lctrl"   -- Left Ctrl (or lgui on Mac)
+layout.debug_leader_right = "rctrl"  -- Right Ctrl (or rgui on Mac)
+```
+
+## Advanced Examples
+
+### Custom Position Map
+
+<Accordion title="Example: Remap Card Selection Keys">
+```lua
+return function(layout)
+  -- Create a custom position mapping
+  -- Using home row + upper rows in different pattern
+  layout.free_select_map = {
+    -- Row 1: Home row
+    ["j"] = 1, ["k"] = 2, ["l"] = 3, [";"] = 4, ["'"] = 5,
+    -- Row 2: Upper row
+    ["u"] = 6, ["i"] = 7, ["o"] = 8, ["p"] = 9, ["["] = 10,
+    -- Row 3: Number row
+    ["7"] = 11, ["8"] = 12, ["9"] = 13, ["0"] = 14, ["-"] = 15,
+  }
+  
+  return layout
+end
+```
+</Accordion>
+
+### Conditional Overrides
+
+<Accordion title="Example: Platform-Specific Bindings">
+```lua
+return function(layout)
+  -- Check the operating system
+  local os = love.system.getOS()
+  
+  if os == "OS X" then
+    -- macOS-specific bindings
+    layout.preview_deck = "§"  -- Key next to 1 on Mac
+  elseif os == "Windows" then
+    -- Windows-specific bindings  
+    layout.preview_deck = "`"  -- Backtick
+  end
+  
+  return layout
+end
+```
+</Accordion>
+
+### Vim-Style Navigation
+
+<Accordion title="Example: HJKL for Card Movement">
+```lua
+return function(layout)
+  -- Remap hand management to vim-style keys
+  layout.hand.left5 = "h"        -- h = left
+  layout.hand.right5 = "l"       -- l = right
+  
+  -- You'll need to adjust position maps to avoid conflicts
+  -- This is an example only - full implementation would be more complex
+  
+  return layout
+end
+```
+</Accordion>
+
+### Cheat Layer Customization
+
+<Accordion title="Example: Change Cheat Layer Leaders">
+```lua
+return function(layout)
+  -- Move cheat layer to different keys
+  layout.cheat.leader_right = ";"
+  layout.cheat.leader_left = "a"
+  
+  -- Change reverse modifier from Shift to Ctrl
+  layout.cheat.reverse_left = "lctrl"
+  layout.cheat.reverse_right = "rctrl"
+  
+  return layout
+end
+```
+</Accordion>
+
+## Card Area Mapping
+
+<Accordion title="Understanding cardarea_map">
+The `cardarea_map` connects leader keys to card areas:
+
+```lua
+-- Default QWERTY mapping
+layout.cardarea_map = {
+  ["/"] = function() return G.hand end,
+  ["["] = function() return G.jokers end,
+  ["'"] = function() return G.consumeables end,
+}
+```
+
+### Custom Card Area Leaders
+
+```lua
+return function(layout)
+  -- Create new mapping table
+  local old_map = layout.cardarea_map
+  
+  layout.cardarea_map = {
+    ["h"] = old_map["/"],   -- h for hand
+    ["j"] = old_map["["],   -- j for jokers
+    ["c"] = old_map["'"],   -- c for consumables
+  }
+  
+  return layout
+end
+```
+</Accordion>
+
+## Top Area Selection
+
+<Accordion title="Customizing Number Row Behavior">
+```lua
+return function(layout)
+  -- Remap top area (jokers + consumables) to function keys
+  layout.top_area_free_select_map = {
+    ["f1"] = 1, ["f2"] = 2, ["f3"] = 3, ["f4"] = 4, ["f5"] = 5,
+    ["f6"] = 6, ["f7"] = 7, ["f8"] = 8, ["f9"] = 9, ["f10"] = 10,
+  }
+  
+  return layout
+end
+```
+</Accordion>
+
+## Cheat Layer Suit/Rank Maps
+
+<Accordion title="Modifying Cheat Layer Shortcuts">
+```lua
+return function(layout)
+  -- Change suit selection keys
+  layout.cheat.suits_map = {
+    ["1"] = "Spades",
+    ["2"] = "Diamonds", 
+    ["3"] = "Clubs",
+    ["4"] = "Hearts",
+  }
+  
+  -- Keep ranks_map as default or modify similarly
+  
+  return layout
+end
+```
+</Accordion>
+
+## Global Map Customization
+
+<Accordion title="Advanced: Modifying Global Actions">
+```lua
+return function(layout)
+  -- The global_map contains functions for global actions
+  -- Access run info with a different key
+  
+  local old_run_info_key = layout.current_layout == "qwerty" and "x" or "q"
+  local old_run_info = layout.global_map[old_run_info_key]
+  
+  -- Remove old binding
+  layout.global_map[old_run_info_key] = nil
+  
+  -- Add new binding
+  layout.global_map["i"] = old_run_info
+  
+  return layout
+end
+```
+</Accordion>
+
+## Debugging Your Configuration
+
+### Testing Overrides
+
+<Accordion title="Print Active Configuration">
+To verify your overrides are loading:
+
+```lua
+return function(layout)
+  -- Your overrides
+  layout.reroll = "f5"
+  
+  -- Debug: Print to console (requires debug mode)
+  print("Typist overrides loaded!")
+  print("Reroll key is now: " .. layout.reroll)
+  
+  return layout
+end
+```
+
+Open the Lua console in debug mode to see the output.
+</Accordion>
+
+### Validating Changes
+
+<Accordion title="Check Layout Values">
+```lua
+return function(layout)
+  -- Ensure a key exists before overriding
+  if layout.hand and layout.hand.deselect_all then
+    layout.hand.deselect_all = "x"
+  else
+    print("Warning: hand.deselect_all not found")
+  end
+  
+  return layout
+end
+```
+</Accordion>
+
+## Common Customization Scenarios
+
+<AccordionGroup>
+<Accordion title="Gamer with MMO Mouse">
+```lua
+return function(layout)
+  -- Map actions to mouse side buttons
+  layout.buy = "mouse4"
+  layout.buy_and_use = "mouse5"
+  layout.reroll = "mouse6"
+  
+  return layout
+end
+```
+</Accordion>
+
+<Accordion title="One-Handed Play (Left Hand)">
+```lua
+return function(layout)
+  -- Move everything to left side of keyboard
+  layout.preview_deck = "`"
+  layout.hand.left5 = "1"
+  layout.hand.right5 = "5"
+  
+  -- Use numbers for quick actions
+  layout.reroll = "6"
+  layout.skip = "7"
+  
+  return layout
+end
+```
+</Accordion>
+
+<Accordion title="Minimal Changes (Just Fix Conflicts)">
+```lua
+return function(layout)
+  -- Only change keys that conflict with your system
+  -- Example: Windows language switch on Ctrl+Space
+  layout.proceed = "return"  -- Use Enter instead of Space
+  
+  return layout
+end
+```
+</Accordion>
+</AccordionGroup>
+
+## Layout Structure Reference
+
+<Accordion title="Complete Layout Object (QWERTY)">
+```lua
+{
+  -- Meta
+  current_layout = "qwerty",
+  builtin_layouts = { "dvorak", "qwerty", "workman" },
+  
+  -- Global
+  proceed = "space",
+  dismiss = "tab",
+  enter = "return",
+  escape = "escape",
+  reroll = "r",
+  skip = "s",
+  unacorn_card = "\\",
+  
+  -- Layout-specific
+  preview_deck = "z",
+  buy = "c",
+  buy_and_use = "v",
+  
+  -- Debug
+  debug_leader_left = "lctrl",  -- or lgui on Mac
+  debug_leader_right = "rctrl", -- or rgui on Mac
+  
+  -- Multi-select
+  select_multiple_right = "rshift",
+  select_multiple_left = "lshift",
+  
+  -- Hand management
+  hand = {
+    deselect_all = "n",
+    invert_selection = "m",
+    left5 = ",",
+    right5 = ".",
+    reorder_by_enhancements = "b",
+    sort_by_rank = "v",
+    sort_by_suit = "c",
+  },
+  
+  -- Cheat layer
+  cheat = {
+    leader_right = "p",
+    leader_left = "q",
+    best_hand = "b",
+    best_flush = "f",
+    suits_map = { s = "Spades", d = "Diamonds", c = "Clubs", h = "Hearts" },
+    ranks_map = {
+      ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] = 5, ["6"] = 6,
+      ["7"] = 7, ["8"] = 8, ["9"] = 9, ["0"] = 10, ["1"] = 10,
+      ["j"] = 11, ["q"] = 12, ["k"] = 13, ["a"] = 14,
+    },
+    reverse_left = "lshift",
+    reverse_right = "rshift",
+  },
+  
+  -- Position maps
+  free_select_map = {
+    -- (20-item table, see QWERTY layout section)
+  },
+  
+  top_area_free_select_map = {
+    ["1"] = 1, ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] = 5,
+    ["6"] = 6, ["7"] = 7, ["8"] = 8, ["9"] = 9, ["0"] = 10,
+  },
+  
+  -- Card areas
+  cardarea_map = {
+    -- (functions that return G.hand, G.jokers, G.consumeables)
+  },
+  
+  -- Global actions
+  global_map = {
+    -- (functions for run info, options menu, etc.)
+  },
+}
+```
+</Accordion>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Overrides not loading">
+**Check:**
+1. File is named exactly `typist-overrides.lua`
+2. File is in the correct save directory
+3. File has valid Lua syntax (check for errors)
+4. File returns a function or table
+
+**Debug:**
+```lua
+return function(layout)
+  print("Typist overrides loaded successfully!")
+  return layout
+end
+```
+
+If you don't see the message in the console, the file isn't being loaded.
+</Accordion>
+
+<Accordion title="Syntax errors">
+Common Lua syntax mistakes:
+
+```lua
+-- WRONG: Missing comma
+return {
+  proceed = "space"
+  dismiss = "tab"  -- Error: missing comma
+}
+
+-- CORRECT:
+return {
+  proceed = "space",
+  dismiss = "tab",
+}
+```
+
+```lua
+-- WRONG: Not returning anything
+return function(layout)
+  layout.reroll = "f5"
+  -- Missing return!
+end
+
+-- CORRECT:
+return function(layout)
+  layout.reroll = "f5"
+  return layout
+end
+```
+</Accordion>
+
+<Accordion title="Keys not working">
+**Check:**
+1. Key names are valid LÖVE key constants (see below)
+2. No conflicting assignments
+3. Key isn't being intercepted by OS/other software
+
+**Test a simple override:**
+```lua
+return function(layout)
+  layout.reroll = "f1"  -- Function keys rarely conflict
+  return layout
+end
+```
+</Accordion>
+</AccordionGroup>
+
+## Valid Key Names
+
+<Accordion title="LÖVE KeyConstant Reference">
+Typist uses LÖVE 2D key constants. Common keys:
+
+**Letters:** `a-z`
+
+**Numbers:** `0-9`
+
+**Function keys:** `f1` through `f24`
+
+**Modifiers:** `lshift`, `rshift`, `lctrl`, `rctrl`, `lalt`, `ralt`, `lgui`, `rgui`
+
+**Special:**
+- `space`, `return`, `escape`, `backspace`, `tab`
+- `up`, `down`, `left`, `right`
+- `home`, `end`, `pageup`, `pagedown`
+- `insert`, `delete`
+
+**Symbols:**
+- `,` `period`, `.` `slash`, `/` `backslash`, `\\`
+- `[` `bracketleft`, `]` `bracketright`
+- `;` `semicolon`, `'` `quote` (apostrophe)
+- `-` `minus`, `=` `equals`
+- `` ` `` `grave` (backtick)
+
+**Numpad:**
+- `kp0` through `kp9`
+- `kpenter`, `kpplus`, `kpminus`, `kpmultiply`, `kpdivide`
+
+Full list: [LÖVE KeyConstant documentation](https://love2d.org/wiki/KeyConstant)
+</Accordion>
+
+## Best Practices
+
+<Tip>
+- **Start small:** Override one or two keys first, test, then expand
+- **Keep backups:** Save a working configuration before making changes
+- **Comment your code:** Explain why you made each change
+- **Test thoroughly:** Try your overrides in different game states
+- **Avoid conflicts:** Don't map multiple actions to the same key
+</Tip>
+
+## Example: Complete Custom Configuration
+
+<Accordion title="Full Override Example">
+```lua
+-- My personal Typist configuration
+-- Author: Player123
+-- Last updated: 2026-03-04
+
+return function(layout)
+  -- === GLOBAL CHANGES ===
+  -- I use Ctrl+Space for language switching, so move proceed to Enter
+  layout.proceed = "return"
+  
+  -- === HAND MANAGEMENT ===
+  -- Prefer function keys for hand sorting (less conflicts)
+  layout.hand.sort_by_rank = "f1"
+  layout.hand.sort_by_suit = "f2"
+  layout.hand.reorder_by_enhancements = "f3"
+  
+  -- === SHOP ===
+  -- Use MMO mouse buttons for shop actions
+  layout.buy = "mouse4"
+  layout.buy_and_use = "mouse5"
+  
+  -- === CHEAT LAYER ===
+  -- Move cheat layer to semicolon (easier to reach)
+  layout.cheat.leader_right = ";"
+  
+  -- === CARD AREAS ===
+  -- I prefer Tab for hand area (muscle memory from other games)
+  -- Move dismiss to Escape
+  layout.dismiss = "escape"
+  
+  local old_map = layout.cardarea_map
+  layout.cardarea_map = {
+    ["tab"] = old_map["/"],   -- Tab for hand
+    ["["] = old_map["["],     -- Keep [ for jokers
+    ["'"] = old_map["'"],     -- Keep ' for consumables
+  }
+  
+  -- === DEBUG ===
+  print("Custom Typist configuration loaded!")
+  
+  return layout
+end
+```
+</Accordion>
+
+## Getting Help
+
+If you're having trouble with your configuration:
+
+1. Check the [Typist GitHub Issues](https://github.com/janw4ld/balatro-typist-mod/issues)
+2. Join the [Balatro Discord](https://discord.com/invite/balatro) and visit the [Typist thread](https://discord.com/channels/1116389027176787968/1349532762259980308)
+3. Review the [source code](https://github.com/janw4ld/balatro-typist-mod/blob/main/mod/layout.lua) for the default layout structure

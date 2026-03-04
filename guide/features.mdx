@@ -1,0 +1,316 @@
+---
+title: Features Overview
+description: Comprehensive guide to all Typist mod features for keyboard-driven Balatro gameplay
+---
+
+The Typist mod transforms Balatro into a fully keyboard-driven experience. This guide covers all major features and how to use them effectively.
+
+## Core Navigation
+
+### Universal Actions
+
+Two keys provide consistent navigation across all game states:
+
+- **Space** - The "proceed" button that:
+  - Plays your selected hand in rounds
+  - Selects the upcoming blind
+  - Uses consumable cards
+  - Selects highlighted pack items
+  - Starts a new run from game over
+  - Clicks any "play" or "continue" button
+
+- **Tab** - The "dismiss" button that:
+  - Discards your selected hand
+  - Moves from shop to blind selection
+  - Sells consumable or joker cards
+  - Skips booster packs
+  - Closes overlay menus
+  - Exits to main menu from game over
+
+- **Escape** - Opens the options menu (available globally)
+- **X** - View run info (QWERTY layout)
+
+## Card Area Layers
+
+<Accordion title="Understanding Card Areas">
+Typist uses a "leader key" system to access different card areas. Hold a leader key, then press a position key to select cards in that area.
+
+### Available Card Areas
+
+| Leader Key | Area | Layout-Specific |
+|------------|------|----------------|
+| `/` | Hand cards | QWERTY/Workman |
+| `z` | Hand cards | Dvorak |
+| `[` | Jokers | All layouts |
+| `'` | Consumables | QWERTY/Workman |
+| `-` | Consumables | Dvorak |
+| Number row (1-0) | Top area (jokers + consumables) | All layouts |
+| None | Shop/Pack cards | All layouts |
+
+### Position Keys
+
+After holding a leader key, use these keys to select cards by position:
+
+**QWERTY Layout:**
+```
+Row 1: a s d f g
+Row 2: h j k l ;
+Row 3: y u i o p
+Row 4: q w e r t
+```
+
+**Dvorak Layout:**
+```
+Row 1: a o e u i
+Row 2: d h t n s
+Row 3: f g c r l
+Row 4: ' , . p y
+```
+
+**Workman Layout:**
+```
+Row 1: a s h t g
+Row 2: y n e o i
+Row 3: j f u p ;
+Row 4: b w r d q
+```
+</Accordion>
+
+## Hand Management
+
+### Direct Selection (During Rounds)
+
+In the `SELECTING_HAND` state, you can toggle cards without holding a leader key:
+
+- **asdfg** (QWERTY) - Toggle first 5 cards
+- **aoeu** (Dvorak) - Toggle first 5 cards  
+- **ashth** (Workman) - Toggle first 5 cards
+- Use additional position keys for cards beyond the first row
+
+### Quick Select Commands
+
+| Key | Action | Description |
+|-----|--------|-------------|
+| `,` (QWERTY) | Left 5 | Select leftmost 5 cards |
+| `.` (QWERTY) | Right 5 | Select rightmost 5 cards |
+| `n` | Deselect All | Clear all selections |
+| `m` | Invert Selection | Swap selected/unselected cards (max 5) |
+
+### Sorting Commands
+
+| Key | Action | Description |
+|-----|--------|-------------|
+| `v` (QWERTY) | Sort by Rank | Order cards by rank value |
+| `c` (QWERTY) | Sort by Suit | Group cards by suit |
+| `b` | Sort by Enhancement | Reorder by modifiers (glass at end, lucky/mult at start) |
+
+## Cheat Layer
+
+<Accordion title="Advanced Hand Selection">
+The cheat layer provides powerful shortcuts for selecting optimal hands. Access it by holding a leader key:
+
+### Leader Keys
+
+- **Right Leader:** `p` (QWERTY), `l` (Dvorak), `;` (Workman)
+- **Left Leader:** `q` (QWERTY/Workman), `'` (Dvorak)
+
+### Cheat Layer Commands
+
+While holding a leader key:
+
+| Key | Action | Description |
+|-----|--------|-------------|
+| `b` | Best Hand | Select the highest-scoring hand available |
+| `f` | Best Flush | Find and select the best flush suit |
+| `s` | Spades | Select all Spades |
+| `d` | Diamonds | Select all Diamonds |
+| `c` | Clubs | Select all Clubs |
+| `h` | Hearts | Select all Hearts |
+| `2-9, 0` | By Rank | Select all cards of that rank |
+| `j` | Jacks | Select all Jacks |
+| `q` | Queens | Select all Queens |
+| `k` | Kings | Select all Kings |
+| `a` | Aces | Select all Aces |
+
+### Reverse Selection
+
+Hold **Shift** (either left or right) along with the leader key when pressing `b` to cycle through hand options in reverse order.
+
+**Example:** Hold `p` + `Shift`, then press `b` to cycle backwards through possible hands.
+</Accordion>
+
+## Deck Preview
+
+<Accordion title="Quick Deck Preview">
+View your entire deck without opening menus:
+
+| Layout | Key | Action |
+|--------|-----|--------|
+| QWERTY/Workman | `z` | Hold to preview deck |
+| Dvorak | `;` | Hold to preview deck |
+
+The preview appears above your hand and disappears when you release the key. This is especially useful for:
+- Checking remaining cards before discarding
+- Planning strategy for upcoming rounds
+- Tracking specific cards in your deck
+</Accordion>
+
+## Shop Actions
+
+### Buying and Using Items
+
+| Key | Action | Context |
+|-----|--------|--------|
+| `c` (QWERTY) | Buy | Purchase highlighted item/pack/voucher |
+| `v` (QWERTY) | Buy & Use | Purchase and immediately use consumable |
+| `r` | Reroll | Reroll shop (costs money) |
+| Tab | Leave Shop | Return to blind selection |
+
+**Layout-specific buy keys:**
+- **QWERTY:** `c` (buy), `v` (buy & use)
+- **Dvorak:** `j` (buy), `k` (buy & use)
+- **Workman:** `m` (buy), `c` (buy & use)
+
+## Blind Selection
+
+| Key | Action | Requirements |
+|-----|--------|-------------|
+| Space/Enter | Select Blind | Start the highlighted blind |
+| `s` | Skip Blind | Requires skip tag |
+| `r` | Reroll Boss | Requires Director's Cut/Retcon voucher + $10 |
+
+## Booster Packs
+
+### Selecting from Packs
+
+- **Position keys** - Select cards directly (no leader key needed)
+- **Space** - Confirm selection
+- **Tab** - Skip pack
+
+### Multi-Select in Special Packs
+
+For Tarot and Spectral packs that allow multiple selections:
+
+- Hold **Shift** + **/** (QWERTY) to access hand cards
+- Use position keys to toggle multiple cards
+- Press **Space** to confirm
+
+## Card Movement & Manipulation
+
+### Moving Cards
+
+1. Select a card using leader key + position key
+2. Press a different position key to move the card to that slot
+3. Works in hand, joker area, and consumables
+
+### Unacorn Feature
+
+<Accordion title="Snatching Cards from Amber Acorn Boss">
+The "unacorn" feature lets you protect a card from being shuffled:
+
+1. Select a card (e.g., your best xMult joker)
+2. Hold **\** (backslash)
+3. The card lifts above the play area
+4. Release **\** to drop it back
+
+**Use case:** When facing the Amber Acorn boss blind, snatch your most important joker to prevent it from being shuffled out of position.
+
+**Note:** While a card is "unacorned" (lifted), you cannot sell or use it. This prevents accidentally selling it when pressing Space to start the blind.
+</Accordion>
+
+### Selling Cards
+
+While a card is selected:
+- Press **Tab** to sell it (if sellable)
+- Works for jokers and consumables
+
+## Special Features
+
+### Splash Screen Skip
+
+Press **any key** to skip the splash screen when launching the game.
+
+### Fast Run Start
+
+From game launch to first blind:
+1. Press any key (skip splash)
+2. Press **Space** (start run)
+3. Press **Space** (select deck)
+4. Press **Space** (select blind)
+
+You can start a run with just the Space bar!
+
+### Multiplayer Compatibility
+
+<Accordion title="BalatroMultiplayer Integration">
+When using with BalatroMultiplayer mod:
+
+**PvP Blinds:**
+- **Space** toggles ready state (instead of immediately starting)
+
+**Lobby Menu:**
+- **Space** starts the run (if you're the host)
+</Accordion>
+
+### Taikomochi Integration
+
+<Accordion title="Zen Mode Retry">
+When using with Taikomochi mod:
+
+**Game Over Screen (Zen Mode):**
+- Press **Enter** to retry the last ante
+</Accordion>
+
+## Debug Features
+
+<Accordion title="Debug Mode (DebugPlus Compatibility)">
+When the game is in debug mode and DebugPlus is installed:
+
+- Hold **Ctrl** (Windows/Linux) or **Cmd** (Mac) as a leader for the entire keyboard
+- All Typist and DebugPlus console features remain accessible
+- Left leader: `lctrl` or `lgui` (Mac)
+- Right leader: `rctrl` or `rgui` (Mac)
+</Accordion>
+
+## Tips & Tricks
+
+<Accordion title="Efficiency Tips">
+### Speed Running
+- Use position keys for direct card selection (faster than mouse)
+- Master the cheat layer `b` key for instant optimal hands
+- Hold `z` for quick deck preview instead of opening the menu
+
+### Card Management
+- Sort by enhancement (`b`) before playing to see modifiers clearly
+- Use invert selection (`m`) to quickly switch strategies
+- Move important jokers to safe positions before boss blinds
+
+### Shop Optimization
+- Use `c` to rapid-fire purchase items
+- Combine selection + Tab to quickly sell unwanted cards
+- Press `r` to reroll without reaching for the mouse
+</Accordion>
+
+## Common Workflows
+
+<Accordion title="Example: Playing a Round">
+1. View hand automatically
+2. Press `p` + `b` to select best hand
+3. Press **Space** to play
+4. Repeat until blind is defeated
+5. Press **Space** to cash out
+</Accordion>
+
+<Accordion title="Example: Shopping">
+1. Use position keys to highlight items
+2. Press `c` to buy
+3. Press Tab to sell unwanted cards
+4. Press `r` to reroll
+5. Press Tab to leave shop
+</Accordion>
+
+<Accordion title="Example: Opening a Booster Pack">
+1. Position keys to select card
+2. Press **Space** to confirm
+3. Or press Tab to skip the pack
+</Accordion>

@@ -1,0 +1,329 @@
+---
+title: Contributing Guide
+description: How to contribute to the Typist mod for Balatro
+---
+
+## Welcome Contributors!
+
+Typist is an open-source project and welcomes contributions from the community. Whether you're fixing bugs, adding features, improving documentation, or just reporting issues, your help is appreciated!
+
+## Ways to Contribute
+
+### Reporting Bugs
+
+Found a bug? Help us fix it by creating a detailed bug report.
+
+**Before Reporting:**
+1. Check if the issue already exists in [GitHub Issues](https://github.com/janw4ld/balatro-typist-mod/issues)
+2. Verify you're using a supported Balatro version (1.0.1n or 1.0.1o)
+3. Test with only Typist installed (disable other mods) to rule out conflicts
+
+**Creating a Bug Report:**
+
+Include the following information:
+
+```markdown
+**Describe the bug**
+A clear description of what's wrong.
+
+**To Reproduce**
+1. Go to '...'
+2. Press '...'
+3. See error
+
+**Expected behavior**
+What should happen instead.
+
+**Environment:**
+- Balatro Version: [e.g., 1.0.1o]
+- OS: [e.g., Windows 11, macOS 14.2, Linux]
+- Keyboard Layout: [qwerty/dvorak/workman]
+- Other Mods Installed: [list them]
+- Custom Overrides: [yes/no, and paste contents if yes]
+
+**Additional context**
+Screenshots, error messages, or any other relevant details.
+```
+
+### Suggesting Features
+
+<Info>
+Check the [TODOs](https://github.com/janw4ld/balatro-typist-mod#todos) and [Future Plans](https://github.com/janw4ld/balatro-typist-mod#future-plans) sections in the README to see what's already planned.
+</Info>
+
+When suggesting a feature:
+- Describe the use case and why it would be valuable
+- Consider how it fits with Typist's keyboard-driven philosophy
+- Propose potential keybindings (if applicable)
+- Be open to discussion and iteration
+
+**Current Planned Features:**
+- Deck selection keybinds (hjkl for deck and stake selection)
+- Half-keyboard layouts for one-hand operation
+- Menu navigation keybinds
+- Redesigned arcana and spectral packs UX
+- Controller UI for displaying keybind hints
+
+### Improving Documentation
+
+Documentation improvements are always welcome! This includes:
+- Fixing typos or unclear explanations
+- Adding examples or tutorials
+- Improving the [wiki](https://github.com/janw4ld/balatro-typist-mod/wiki)
+- Creating video guides or screenshots
+
+Documentation is often the first thing new users see, so quality here makes a big impact.
+
+## Code Contributions
+
+### Getting Started
+
+1. **Fork the Repository**
+   
+   Click the "Fork" button on [GitHub](https://github.com/janw4ld/balatro-typist-mod)
+
+2. **Clone Your Fork**
+   
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/balatro-typist-mod.git
+   cd balatro-typist-mod
+   ```
+
+3. **Set Up Development Environment**
+   
+   - Install Balatro (obviously!)
+   - Install the Lovely injector
+   - Symlink your cloned repo to the Mods directory:
+     ```bash
+     # Windows (cmd as admin)
+     mklink /D "%AppData%\Balatro\Mods\balatro-typist-mod" "C:\path\to\your\clone"
+     
+     # macOS/Linux
+     ln -s /path/to/your/clone "$HOME/Library/Application Support/Balatro/Mods/balatro-typist-mod"
+     ```
+
+4. **Create a Branch**
+   
+   ```bash
+   git checkout -b feature/your-feature-name
+   # or
+   git checkout -b fix/your-bug-fix
+   ```
+
+### Code Style Guidelines
+
+Typist uses [StyLua](https://github.com/JohnnyMorganz/StyLua) for Lua code formatting.
+
+**Configuration (`.stylua.toml`):**
+```toml
+line_endings = "Unix"
+column_width = 100
+indent_type = "Spaces"
+indent_width = 2
+quote_style = "AutoPreferDouble"
+call_parentheses = "NoSingleTable"
+collapse_simple_statement = "ConditionalOnly"
+
+[sort_requires]
+enabled = true
+```
+
+**Key Points:**
+- Use **2 spaces** for indentation (not tabs)
+- Maximum **100 characters** per line
+- Prefer **double quotes** for strings
+- Unix-style line endings (LF, not CRLF)
+- Sort `require` statements
+- Omit parentheses for single table argument function calls
+
+**Before Committing:**
+
+```bash
+# Install StyLua
+cargo install stylua
+# or use a pre-built binary from GitHub releases
+
+# Format your code
+stylua .
+
+# Check what would change without modifying files
+stylua --check .
+```
+
+### Project Structure
+
+Understanding the codebase:
+
+```
+balatro-typist-mod/
+├── mod/
+│   ├── init.lua              # Entry point, settings initialization
+│   ├── layout.lua            # Keyboard layout definitions and keybindings
+│   ├── entrypoint.lua        # Main mod initialization
+│   ├── state-handlers.lua    # Game state-specific logic
+│   ├── cardarea-handler.lua  # Card area interaction logic
+│   ├── cardarea-ext.lua      # Card area extensions
+│   ├── hand.lua              # Hand manipulation
+│   ├── handutils.lua         # Hand utility functions
+│   ├── settings-page.lua     # In-game settings UI
+│   └── smods.lua             # Steamodded integration
+├── lib/
+│   ├── tblutils.lua          # Table utility functions
+│   └── log.lua               # Logging utilities
+├── compat/
+│   ├── init.lua              # Compatibility layer initialization
+│   ├── debugplus.lua         # DebugPlus compatibility
+│   ├── multiplayer.lua       # BalatroMultiplayer compatibility
+│   ├── taikomochi.lua        # Taikomochi compatibility
+│   └── fhotkey.lua           # FlushHotkeys compatibility
+└── lovely.toml               # Lovely injector configuration
+```
+
+**Key Files to Know:**
+- `mod/layout.lua` - Add or modify keybindings here
+- `mod/state-handlers.lua` - Add handlers for different game states
+- `compat/*.lua` - Add compatibility for other mods
+
+### Development Workflow
+
+1. **Make Your Changes**
+   
+   - Write clean, commented code
+   - Follow the existing code style
+   - Test thoroughly in-game
+
+2. **Test Your Changes**
+   
+   - Test with all three keyboard layouts (qwerty, dvorak, workman)
+   - Test with and without other compatible mods
+   - Test edge cases (e.g., what happens with 10+ jokers?)
+   - Verify nothing breaks in different game states
+
+3. **Format Your Code**
+   
+   ```bash
+   stylua .
+   ```
+
+4. **Commit Your Changes**
+   
+   Write clear, descriptive commit messages:
+   ```bash
+   # Good commit messages
+   git commit -m "Add keybinding for deck selection in new run menu"
+   git commit -m "Fix card selection bug with more than 9 cards"
+   git commit -m "Improve performance of card hover detection"
+   
+   # Avoid vague messages
+   git commit -m "Fix bug"  # Too vague
+   git commit -m "Update code"  # Not descriptive
+   ```
+
+5. **Push to Your Fork**
+   
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+### Pull Request Process
+
+1. **Create a Pull Request**
+   
+   - Go to your fork on GitHub
+   - Click "New Pull Request"
+   - Select your branch
+   - Write a clear description of your changes
+
+2. **PR Description Template**
+   
+   ```markdown
+   ## Description
+   Brief description of what this PR does.
+   
+   ## Changes
+   - Added X feature
+   - Fixed Y bug
+   - Improved Z performance
+   
+   ## Testing
+   - Tested on Balatro 1.0.1o
+   - Tested with qwerty/dvorak/workman layouts
+   - Tested with Steamodded, DebugPlus, etc.
+   
+   ## Related Issues
+   Closes #123
+   Related to #456
+   
+   ## Screenshots/Videos
+   (If applicable)
+   ```
+
+3. **Code Review**
+   
+   - Be responsive to feedback
+   - Make requested changes promptly
+   - Discuss concerns constructively
+
+4. **Merge**
+   
+   Once approved, a maintainer will merge your PR. Congratulations!
+
+### Coding Best Practices
+
+<Warning>
+**Avoid breaking changes** whenever possible. Many users depend on existing keybindings and behaviors.
+</Warning>
+
+- **Backwards Compatibility**: Don't break existing functionality or keybindings
+- **Performance**: Avoid expensive operations in tight loops (especially in card rendering)
+- **Error Handling**: Gracefully handle edge cases
+- **Comments**: Explain *why*, not just *what*
+- **Modularity**: Keep functions focused and reusable
+- **Testing**: Test edge cases, not just the happy path
+
+## Getting Help
+
+### Join the Community
+
+- **Discord**: Join the [Balatro Discord](https://discord.com/invite/balatro) and find [Typist's thread](https://discord.com/channels/1116389027176787968/1349532762259980308)
+- **GitHub Discussions**: Ask questions on GitHub
+- **Code Review**: Don't hesitate to ask for feedback on your approach before implementing
+
+### Learning Resources
+
+- **Balatro Modding**: Study other Balatro mods for examples
+- **Lovely Injector**: Read the [Lovely documentation](https://github.com/ethangreen-dev/lovely-injector)
+- **Lua Reference**: [Lua 5.1 Reference Manual](https://www.lua.org/manual/5.1/) (Balatro uses Lua 5.1)
+- **LÖVE Framework**: [LÖVE wiki](https://love2d.org/wiki/Main_Page) (Balatro is built on LÖVE)
+
+## License
+
+<Info>
+Typist is licensed under **GNU General Public License v3.0**.
+</Info>
+
+By contributing, you agree that your contributions will be licensed under the GPL-3.0 license. This ensures:
+
+- The project remains free and open-source
+- Derivatives must also be open-source
+- Users have the freedom to use, modify, and distribute the code
+
+See the [LICENSE](https://github.com/janw4ld/balatro-typist-mod/blob/main/license) file for full details.
+
+## Recognition
+
+Contributors are acknowledged in:
+- The GitHub contributors list
+- The project README (for significant contributions)
+- Commit history (your commits remain attributed to you)
+
+Thank you for helping make Typist better for everyone!
+
+## Questions?
+
+If anything in this guide is unclear or you have questions about contributing, feel free to:
+- Ask in the Discord thread
+- Open a GitHub Discussion
+- Comment on a related issue
+
+We're here to help you contribute successfully!

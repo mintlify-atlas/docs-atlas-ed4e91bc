@@ -1,0 +1,517 @@
+---
+title: 'Module Reference'
+description: 'Public API documentation for all Typist modules'
+---
+
+This page documents the public API surface of Typist's modules. Use these functions and objects to extend or integrate with the mod.
+
+## Global Objects
+
+### G.__typist_TOP_AREA
+
+A pseudo-CardArea object that combines jokers and consumables into a single navigable area.
+
+```lua
+G.__typist_TOP_AREA = setmetatable({}, {
+  __index = { __typist_top_area = true }
+})
+```
+
+**Properties:**
+- `cards` - Array of cards from both jokers and consumables
+- `highlighted` - Array of highlighted cards
+- `active_selection` - Currently active card in top area
+- `__typist_top_area` - Marker property set to `true`
+
+**Usage:**
+```lua
+-- Access combined joker and consumable cards
+G.__typist_TOP_AREA.cards = tu.list_concat(
+  G.jokers.cards,
+  G.consumeables.cards
+)
+
+-- Check if an area is the top area
+if area.__typist_top_area then
+  -- Handle top area logic
+end
+```
+
+### G.SETTINGS.__typist
+
+Mod-specific settings object.
+
+```lua
+G.SETTINGS.__typist = {
+  card_hover_duration = 10  -- seconds, 0 for infinite
+}
+```
+
+**Properties:**
+- `card_hover_duration` (number) - How long to hover cards when selected (default: 10 seconds, 0 = infinite)
+
+**Usage:**
+```lua
+-- Set infinite card hover
+G.SETTINGS.__typist.card_hover_duration = 0
+
+-- Set 5 second hover
+G.SETTINGS.__typist.card_hover_duration = 5
+```
+
+### G.__typist_ORPHANED_UIBOXES
+
+A table that tracks UI boxes that are not attached to the main UI hierarchy.
+
+```lua
+G.__typist_ORPHANED_UIBOXES = {}
+```
+
+**Usage:**
+Used internally to find UI elements like the cash out button during round evaluation.
+
+## CardArea Extensions
+
+### CardArea:__typist_toggle_card_by_index
+
+Toggles card selection at a specific index in a card area.
+
+**Source:** `mod/cardarea-ext.lua`
+
+```lua
+function CardArea:__typist_toggle_card_by_index(index)
+  -- Implementation
+end
+```
+
+**Parameters:**
+- `index` (number) - The 1-based index of the card to toggle
+
+**Returns:**
+- (Card|nil) - The toggled card if highlighted, nil if unhighlighted
+
+**Behavior:**
+- Plays cancel sound if index is out of bounds
+- Cancels any pending hover events
+- Clicks the target card to toggle highlight state
+- Hovers the card for `card_hover_duration` seconds
+- Handles top area active selection tracking
+
+**Example:**
+```lua
+-- Toggle the first card in hand
+local card = G.hand:__typist_toggle_card_by_index(1)
+
+if card then
+  print("Card is now highlighted")
+else
+  print("Card was unhighlighted")
+end
+```
+
+<Note>
+This method manages hover events automatically. Previous hover events are cancelled when toggling a new card.
+</Note>
+
+## Layout System
+
+The layout module provides keybinding configuration for different keyboard layouts.
+
+**Source:** `mod/layout.lua`
+
+### layout.current_layout
+
+The currently active keyboard layout name.
+
+```lua
+layout.current_layout -- "qwerty", "dvorak", or "workman"
+```
+
+### layout.free_select_map
+
+Maps keys to card positions (1-20) for free selection in hand.
+
+```lua
+-- QWERTY layout
+layout.free_select_map = {
+  a = 1,  s = 2,  d = 3,  f = 4,  g = 5,
+  h = 6,  j = 7,  k = 8,  l = 9,  [";"] = 10,
+  y = 11, u = 12, i = 13, o = 14, p = 15,
+  q = 16, w = 17, e = 18, r = 19, t = 20,
+}
+```
+
+### layout.top_area_free_select_map
+
+Maps number keys to positions (1-10) for jokers and consumables.
+
+```lua
+layout.top_area_free_select_map = {
+  ["1"] = 1, ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] = 5,
+  ["6"] = 6, ["7"] = 7, ["8"] = 8, ["9"] = 9, ["0"] = 10,
+}
+```
+
+### layout.cardarea_map
+
+Maps leader keys to card area accessor functions.
+
+```lua
+layout.cardarea_map = {
+  ["/"] = function() return G.hand end,        -- QWERTY
+  ["["] = function() return G.jokers end,      -- QWERTY
+  ["'"] = function() return G.consumeables end, -- QWERTY
+}
+```
+
+### layout.global_map
+
+Maps keys to global action functions.
+
+```lua
+layout.global_map = {
+  x = function() -- QWERTY: run info
+    if G.HUD then G.FUNCS.run_info() end
+  end,
+  escape = function() -- Options menu
+    if not G.OVERLAY_MENU then G.FUNCS:options() end
+  end,
+}
+```
+
+### Action Keys
+
+Layout-agnostic action keys:
+
+```lua
+layout.proceed = "space"       -- Confirm/play hand
+layout.dismiss = "tab"          -- Cancel/discard/sell
+layout.enter = "return"         -- Alternative confirm
+layout.escape = "escape"        -- Back/options
+layout.reroll = "r"             -- Reroll shop/boss
+layout.skip = "s"               -- Skip blind
+layout.buy = "c"                -- Buy (QWERTY)
+layout.buy_and_use = "v"        -- Buy and use (QWERTY)
+layout.unacorn_card = "\\"      -- Prevent boss shuffle
+layout.preview_deck = "z"       -- Preview deck (QWERTY)
+```
+
+### Hand Management Keys
+
+```lua
+layout.hand = {
+  deselect_all = "n",              -- QWERTY
+  invert_selection = "m",          -- QWERTY
+  left5 = ",",                     -- QWERTY
+  right5 = ".",                    -- QWERTY
+  reorder_by_enhancements = "b",   -- QWERTY
+  sort_by_rank = "v",              -- QWERTY
+  sort_by_suit = "c",              -- QWERTY
+}
+```
+
+### Cheat Layer Keys
+
+```lua
+layout.cheat = {
+  leader_right = "p",  -- QWERTY
+  leader_left = "q",   -- QWERTY
+  best_hand = "b",
+  best_flush = "f",
+  reverse_left = "lshift",
+  reverse_right = "rshift",
+  
+  suits_map = {
+    s = "Spades",
+    d = "Diamonds",
+    c = "Clubs",
+    h = "Hearts"
+  },
+  
+  ranks_map = {
+    ["2"] = 2,  ["3"] = 3,  ["4"] = 4,  ["5"] = 5,
+    ["6"] = 6,  ["7"] = 7,  ["8"] = 8,  ["9"] = 9,
+    ["0"] = 10, ["1"] = 10, j = 11, q = 12,
+    k = 13, a = 14,
+  },
+}
+```
+
+## State Handlers
+
+State handlers are functions that process keyboard input for specific game states.
+
+**Source:** `mod/state-handlers.lua`
+
+### state_handlers[G.STATE]
+
+A table of handler functions indexed by game state.
+
+```lua
+local state_handlers = require("typist.mod.state-handlers")
+
+-- Call the handler for current state
+if state_handlers[G.STATE] then
+  state_handlers[G.STATE](key, held_keys)
+end
+```
+
+**Signature:**
+```lua
+function(key, held_keys)
+  -- key: string - The pressed key
+  -- held_keys: table - Map of currently held keys
+end
+```
+
+**Available Handlers:**
+- `state_handlers[G.STATES.SELECTING_HAND]`
+- `state_handlers[G.STATES.SHOP]`
+- `state_handlers[G.STATES.BLIND_SELECT]`
+- `state_handlers[G.STATES.ROUND_EVAL]`
+- `state_handlers[G.STATES.MENU]`
+- `state_handlers[G.STATES.SPLASH]`
+- `state_handlers[G.STATES.STANDARD_PACK]`
+- `state_handlers[G.STATES.PLANET_PACK]`
+- `state_handlers[G.STATES.SPECTRAL_PACK]`
+- `state_handlers[G.STATES.BUFFOON_PACK]`
+- `state_handlers[G.STATES.TAROT_PACK]`
+- `state_handlers[G.STATES.SMODS_BOOSTER_OPENED]` (if available)
+
+**Example:**
+```lua
+-- Extend the SELECTING_HAND handler
+local original_handler = state_handlers[G.STATES.SELECTING_HAND]
+
+state_handlers[G.STATES.SELECTING_HAND] = function(key, held_keys)
+  -- Custom logic
+  if key == "x" then
+    print("Custom X key handler!")
+    return
+  end
+  
+  -- Fall back to original
+  original_handler(key, held_keys)
+end
+```
+
+## Card Area Handler
+
+Unified handler for card area keyboard interactions.
+
+**Source:** `mod/cardarea-handler.lua`
+
+### cardarea_handler
+
+Processes keyboard input for a card area.
+
+```lua
+local cardarea_handler = require("typist.mod.cardarea-handler")
+
+local handled = cardarea_handler(area, key, held_keys)
+```
+
+**Parameters:**
+- `area` (CardArea) - The card area to handle (or pseudo-CardArea)
+- `key` (string) - The pressed key
+- `held_keys` (table) - Currently held keys
+
+**Returns:**
+- (boolean) - `true` if the key was handled, `false` to fall through
+
+**Behavior:**
+- Handles card selection by position
+- Buys/sells cards in shop
+- Uses consumables and vouchers
+- Moves cards to target positions
+- Manages the "unacorn" feature (dragging cards)
+
+**Example:**
+```lua
+-- Handle shop as unified area
+local shop = setmetatable({}, { __index = { __typist_shop = true } })
+shop.cards = tu.list_concat(
+  G.shop_jokers.cards,
+  G.shop_vouchers.cards,
+  G.shop_booster.cards
+)
+shop.highlighted = tu.list_concat(
+  G.shop_jokers.highlighted,
+  G.shop_vouchers.highlighted,
+  G.shop_booster.highlighted
+)
+
+if cardarea_handler(shop, key, held_keys) then
+  -- Key was handled
+end
+```
+
+## Hand Module
+
+Provides hand selection and manipulation functions.
+
+**Source:** `mod/hand.lua`
+
+### hand.left5
+
+Selects the leftmost 5 cards in hand.
+
+```lua
+local hand = require("typist.mod.hand")
+
+hand.left5()
+```
+
+### hand.right5
+
+Selects the rightmost 5 cards in hand.
+
+```lua
+hand.right5()
+```
+
+### hand.by_rank
+
+Selects all cards matching a specific rank.
+
+```lua
+hand.by_rank(14)  -- Select all Aces
+hand.by_rank(13)  -- Select all Kings
+```
+
+**Parameters:**
+- `rank` (number) - Card rank (2-10, 11=Jack, 12=Queen, 13=King, 14=Ace)
+
+### hand.flush
+
+Selects cards of a specific suit for a flush.
+
+```lua
+hand.flush("Hearts")    -- Select Hearts flush
+hand.flush("Spades")    -- Select Spades flush
+```
+
+**Parameters:**
+- `suit` (string) - "Hearts", "Diamonds", "Clubs", or "Spades"
+
+**Behavior:**
+- Accounts for Smeared Joker (combines suits)
+- Accounts for Four Fingers (4-card flush)
+- Selects best 5 cards if enough available
+- Otherwise selects worst cards to discard
+
+### hand.best_flush_suit
+
+Returns the suit that would make the best flush.
+
+```lua
+local suit = hand.best_flush_suit()
+print(suit)  -- "Hearts", "Diamonds", "Clubs", or "Spades"
+```
+
+**Returns:**
+- (string) - The optimal suit for a flush
+
+### hand.best_hand
+
+Selects the best possible hand, or cycles through ranked hands.
+
+```lua
+hand.best_hand(false)  -- Next best hand
+hand.best_hand(true)   -- Previous best hand
+```
+
+**Parameters:**
+- `reverse` (boolean) - If true, cycle backwards through hand rankings
+
+### hand.invert_selection
+
+Inverts the current hand selection (up to 5 cards).
+
+```lua
+hand.invert_selection()
+```
+
+### hand.reorder_by_enhancements
+
+Reorders hand cards to optimize enhancement/edition effects.
+
+```lua
+hand.reorder_by_enhancements()
+```
+
+**Behavior:**
+Orders cards: Holo → Lucky → Mult → Foil → Bonus → Normal → Polychrome → Glass
+
+This ordering helps trigger effects in optimal sequence.
+
+## Utilities
+
+### tblutils (tu)
+
+Table utility functions used throughout Typist.
+
+**Source:** `lib/tblutils.lua`
+
+```lua
+local tu = require("typist.lib.tblutils")
+```
+
+**Common Functions:**
+- `tu.list_concat(...)` - Concatenate arrays
+- `tu.list_index_of(list, item)` - Find item index
+- `tu.list_move_item(list, from, to)` - Move item
+- `tu.list_take(list, n)` - Take first n items
+- `tu.list_diff(a, b)` - Set difference
+- `tu.contains(list, item)` - Check if item exists
+- `tu.deep_merge(a, b)` - Deep merge tables
+- `tu.enum(list, [default_fn])` - Create enum
+
+### log
+
+Logging utility for debug output.
+
+**Source:** `lib/log.lua`
+
+```lua
+local log = require("typist.lib.log")
+
+log("Debug message")
+log("Value:", some_value)
+```
+
+## Compatibility Modules
+
+See [Compatibility](/technical/compatibility) for details on mod integration APIs.
+
+## Extension Pattern
+
+To extend Typist, follow this pattern:
+
+```lua
+-- 1. Require the module you want to extend
+local state_handlers = require("typist.mod.state-handlers")
+local layout = require("typist.mod.layout")
+
+-- 2. Add your custom keybinding to layout
+layout.my_custom_key = "x"
+
+-- 3. Extend or replace the handler
+local original = state_handlers[G.STATES.SELECTING_HAND]
+
+state_handlers[G.STATES.SELECTING_HAND] = function(key, held_keys)
+  if key == layout.my_custom_key then
+    -- Your custom logic
+    return
+  end
+  
+  -- Call original handler
+  original(key, held_keys)
+end
+```
+
+## See Also
+
+- [Architecture Overview](/technical/architecture) - How modules work together
+- [Compatibility](/technical/compatibility) - Integrating with other mods
+- [Configuration](/guide/configuration) - User-facing configuration

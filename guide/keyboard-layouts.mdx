@@ -1,0 +1,293 @@
+---
+title: Keyboard Layouts
+description: Support for QWERTY, Dvorak, and Workman keyboard layouts in Typist
+---
+
+Typist supports three keyboard layouts: **QWERTY**, **Dvorak**, and **Workman**. The mod intelligently adapts keybindings to maintain ergonomics and mnemonics across layouts.
+
+## Layout Detection
+
+Typist automatically detects your preferred layout from the `typist-layout` configuration file:
+
+```lua
+-- Default: QWERTY
+-- The mod reads from: [Balatro Save Directory]/typist-layout
+```
+
+If no layout file exists, Typist defaults to **QWERTY**.
+
+## Supported Layouts
+
+### QWERTY (Default)
+
+The standard QWERTY layout with optimal key positioning for Balatro gameplay.
+
+<Accordion title="QWERTY Position Map">
+**Free Select Keys:**
+```
+Row 1: a s d f g (cards 1-5)
+Row 2: h j k l ; (cards 6-10)
+Row 3: y u i o p (cards 11-15)
+Row 4: q w e r t (cards 16-20)
+```
+
+**Leader Keys:**
+- Hand: `/`
+- Jokers: `[`
+- Consumables: `'`
+- Cheat (right): `p`
+- Cheat (left): `q`
+
+**Quick Actions:**
+- Deck preview: `z`
+- Buy: `c`
+- Buy & use: `v`
+- Left 5: `,`
+- Right 5: `.`
+- Run info: `x`
+- Reorder by enhancement: `b`
+- Deselect all: `n`
+- Invert selection: `m`
+</Accordion>
+
+### Dvorak
+
+Optimized for the Dvorak Simplified Keyboard layout, maintaining positional consistency.
+
+<Accordion title="Dvorak Position Map">
+**Free Select Keys:**
+```
+Row 1: a o e u i (cards 1-5)
+Row 2: d h t n s (cards 6-10)
+Row 3: f g c r l (cards 11-15)
+Row 4: ' , . p y (cards 16-20)
+```
+
+**Leader Keys:**
+- Hand: `z`
+- Jokers: `/`
+- Consumables: `-`
+- Cheat (right): `l`
+- Cheat (left): `'`
+
+**Quick Actions:**
+- Deck preview: `;`
+- Buy: `j`
+- Buy & use: `k`
+- Left 5: `w`
+- Right 5: `v`
+- Run info: `q`
+- Reorder by enhancement: `x`
+- Deselect all: `b`
+- Invert selection: `m`
+</Accordion>
+
+### Workman
+
+Support for the Workman layout with ergonomic key placement.
+
+<Accordion title="Workman Position Map">
+**Free Select Keys:**
+```
+Row 1: a s h t g (cards 1-5)
+Row 2: y n e o i (cards 6-10)
+Row 3: j f u p ; (cards 11-15)
+Row 4: b w r d q (cards 16-20)
+```
+
+**Leader Keys:**
+- Hand: `/`
+- Jokers: `[`
+- Consumables: `'`
+- Cheat (right): `;`
+- Cheat (left): `q`
+
+**Quick Actions:**
+- Deck preview: `z`
+- Buy: `m`
+- Buy & use: `c`
+- Left 5: `d`
+- Right 5: `.`
+- Run info: `x`
+- Reorder by enhancement: `v`
+- Deselect all: `k`
+- Invert selection: `l`
+</Accordion>
+
+## Layout Philosophy
+
+### Positional Keys
+
+**Positional keys** maintain their physical location across layouts. This means:
+
+- The home row always selects cards 1-5
+- The second row always selects cards 6-10
+- Physical muscle memory transfers between layouts
+
+**Example:** In QWERTY, `asdfg` selects the first 5 cards. In Dvorak, the same physical keys (`aoeu`) select the first 5 cards.
+
+### Mnemonic Keys
+
+**Mnemonic keys** preserve their letter meaning across layouts:
+
+- `r` always means "reroll"
+- `s` always means "skip"
+- `b` always means "best hand" (in cheat layer)
+- `f` always means "flush" (in cheat layer)
+
+These keys may be in different physical positions but maintain their semantic meaning.
+
+## Universal Keys
+
+Some keys remain constant across all layouts:
+
+| Key | Function | Why Universal |
+|-----|----------|---------------|
+| Space | Proceed | Standard across all software |
+| Tab | Dismiss | Common cancel/back action |
+| Enter/Return | Confirm | Universal confirmation |
+| Escape | Options menu | Standard escape key |
+| Numbers 1-0 | Top area selection | Number row is consistent |
+| Shift (both) | Multi-select modifier | Standard modifier key |
+| `\` | Unacorn card | Special character, consistent |
+
+## Cheat Layer Differences
+
+<Accordion title="Layout-Specific Cheat Leaders">
+The cheat layer leader keys are positioned for comfortable right-hand access:
+
+| Layout | Right Leader | Left Leader | Rationale |
+|--------|-------------|-------------|----------|
+| QWERTY | `p` | `q` | Rightmost/leftmost on top row |
+| Dvorak | `l` | `'` | Comfortable right-hand positions |
+| Workman | `;` | `q` | Optimized for Workman home row |
+
+**Usage Pattern:**
+- Right-handed users: Use right leader + left hand for commands
+- Left-handed users: Use left leader + right hand for commands
+</Accordion>
+
+## Switching Layouts
+
+### Method 1: Configuration File
+
+1. Navigate to your Balatro save directory:
+   - **Windows:** `%AppData%/Balatro/`
+   - **Mac:** `~/Library/Application Support/Balatro/`
+   - **Linux:** `~/.local/share/Steam/steamapps/compatdata/2379780/pfx/drive_c/users/steamuser/AppData/Roaming/Balatro/`
+
+2. Create or edit the file named `typist-layout`
+
+3. Write one of the following (no quotes, no extra spaces):
+   ```
+   qwerty
+   ```
+   or
+   ```
+   dvorak
+   ```
+   or
+   ```
+   workman
+   ```
+
+4. Save the file and restart Balatro
+
+### Method 2: Programmatic (Advanced)
+
+<Accordion title="Setting Layout via Code">
+You can also set the layout programmatically in `typist-overrides.lua`:
+
+```lua
+return function(layout)
+  layout.current_layout = "dvorak"
+  return layout
+end
+```
+
+This method is useful if you want to:
+- Dynamically switch layouts
+- Include layout changes with other overrides
+- Script layout selection based on conditions
+</Accordion>
+
+## Verifying Your Layout
+
+<Accordion title="Check Active Layout">
+To verify which layout Typist is using:
+
+1. Enable debug mode in Balatro
+2. Open the Lua console
+3. Run:
+   ```lua
+   print(require("typist.mod.layout").current_layout)
+   ```
+
+4. The console will display: `qwerty`, `dvorak`, or `workman`
+</Accordion>
+
+## Layout Comparison Table
+
+<Accordion title="Quick Reference: All Layouts">
+| Action | QWERTY | Dvorak | Workman |
+|--------|--------|--------|----------|
+| **Card Selection (Row 1)** | asdfg | aoeu | ashth |
+| **Hand Leader** | / | z | / |
+| **Jokers Leader** | [ | / | [ |
+| **Consumables Leader** | ' | - | ' |
+| **Cheat Leader (R)** | p | l | ; |
+| **Cheat Leader (L)** | q | ' | q |
+| **Deck Preview** | z | ; | z |
+| **Buy** | c | j | m |
+| **Buy & Use** | v | k | c |
+| **Run Info** | x | q | x |
+| **Left 5** | , | w | d |
+| **Right 5** | . | v | . |
+| **Sort Enhancement** | b | x | v |
+| **Deselect All** | n | b | k |
+| **Invert Select** | m | m | l |
+</Accordion>
+
+## Custom Layouts
+
+While Typist only includes built-in support for QWERTY, Dvorak, and Workman, you can create custom layouts using [keybinding overrides](/guide/configuration).
+
+<Accordion title="Example: Custom Layout">
+```lua
+-- In typist-overrides.lua
+return function(layout)
+  -- Define your custom position map
+  layout.free_select_map = {
+    ["h"] = 1, ["t"] = 2, ["n"] = 3, ["s"] = 4, ["g"] = 5,
+    ["c"] = 6, ["r"] = 7, ["l"] = 8, ["d"] = 9, ["w"] = 10,
+    -- ... and so on
+  }
+  
+  return layout
+end
+```
+
+See the [Configuration Guide](/guide/configuration) for more details.
+</Accordion>
+
+## Tips for Layout Users
+
+<Accordion title="Dvorak Users">
+- Remember your hand leader is `z`, not `/`
+- The cheat layer is on `l` (right pinky), comfortable for quick access
+- Deck preview is `;` (QWERTY's `z` position)
+</Accordion>
+
+<Accordion title="Workman Users">
+- Most keys match QWERTY positions
+- Buy actions shifted to `m` and `c` for better Workman ergonomics
+- Deselect/invert moved to `k` and `l` (better flow with Workman home row)
+</Accordion>
+
+<Accordion title="Custom Layout Considerations">
+If creating a custom layout:
+1. Keep positional keys in a grid pattern (easier to learn)
+2. Place leader keys on accessible but non-conflicting positions
+3. Preserve mnemonic keys where possible (`r` for reroll, `s` for skip)
+4. Test thoroughly in different game states
+</Accordion>

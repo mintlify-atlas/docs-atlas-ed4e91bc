@@ -1,0 +1,428 @@
+---
+title: Keybinding Reference
+description: Complete reference of all Typist keybindings organized by function and game state
+---
+
+This is the complete keybinding reference for Typist. Keybindings are organized by function and game state for easy lookup.
+
+<Note>
+This guide uses **QWERTY** layout by default. See [Keyboard Layouts](/guide/keyboard-layouts) for Dvorak and Workman mappings.
+</Note>
+
+## Global Keybindings
+
+These keys work in all game states:
+
+| Key | Function | Notes |
+|-----|----------|-------|
+| **Escape** | Open options menu | Only if menu not already open |
+| **x** | View run info | When run info button is available |
+
+## Main Menu
+
+| Key | Function | Context |
+|-----|----------|--------|
+| **Space** | Start run / Continue | Main menu "Play" button |
+| **Any key** | Skip splash screen | When splash screen is showing |
+
+## Game Over / End Screen
+
+| Key | Function | Result |
+|-----|----------|--------|
+| **Space** | New run | Goes to deck selection |
+| **Tab** | Main menu | Exits to main menu |
+| **Escape** | Main menu | Same as Tab |
+| **Enter** | Endless mode / Zen retry | Endless if won, retry if Taikomochi installed |
+
+## Deck Selection
+
+| Key | Function | Requirements |
+|-----|----------|-------------|
+| **Space** | Start with selected deck | Deck must be unlocked |
+| **Tab** | Cancel | Returns to previous menu |
+| **Escape** | Cancel | Same as Tab |
+
+## Round (Selecting Hand)
+
+### Direct Card Selection
+
+**No leader key needed in rounds:**
+
+| Keys | Cards Selected | QWERTY |
+|------|---------------|--------|
+| **asdfg** | 1-5 | First row |
+| **hjkl;** | 6-10 | Second row |
+| **yuiop** | 11-15 | Third row |
+| **qwert** | 16-20 | Fourth row |
+
+### Hand Actions
+
+| Key | Function | Description |
+|-----|----------|-------------|
+| **Space** | Play hand | Plays selected cards |
+| **Tab** | Discard hand | Discards selected cards |
+| **n** | Deselect all | Clears selection |
+| **m** | Invert selection | Swaps selected/unselected (max 5) |
+| **,** | Select left 5 | Selects leftmost 5 cards |
+| **.** | Select right 5 | Selects rightmost 5 cards |
+
+### Hand Sorting
+
+| Key | Function | Description |
+|-----|----------|-------------|
+| **v** | Sort by rank | Orders by card value |
+| **c** | Sort by suit | Groups by suit |
+| **b** | Sort by enhancement | Glass to end, lucky/mult to start |
+
+### Deck Preview
+
+| Key | Function | Notes |
+|-----|----------|-------|
+| **z** (hold) | Show deck preview | Displays entire deck above hand |
+
+## Cheat Layer
+
+<Accordion title="Accessing the Cheat Layer">
+Hold **p** (right leader) or **q** (left leader) to activate the cheat layer, then press any of these keys:
+</Accordion>
+
+### Best Hand Selection
+
+| Key | Function | Modifier |
+|-----|----------|----------|
+| **b** | Select best hand | Hold Shift to cycle backwards |
+| **f** | Best flush | Finds best flush suit available |
+
+### Select by Suit
+
+| Key | Suit | Notes |
+|-----|------|-------|
+| **s** | Spades | Selects all Spades in hand |
+| **d** | Diamonds | Selects all Diamonds in hand |
+| **c** | Clubs | Selects all Clubs in hand |
+| **h** | Hearts | Selects all Hearts in hand |
+
+### Select by Rank
+
+| Key | Rank | Notes |
+|-----|------|-------|
+| **2-9** | Number cards | Selects all cards of that rank |
+| **0** | Tens | Selects all 10s |
+| **1** | Tens | Alternative for 10s |
+| **j** | Jacks | Selects all Jacks |
+| **q** | Queens | Selects all Queens |
+| **k** | Kings | Selects all Kings |
+| **a** | Aces | Selects all Aces |
+
+### Cheat Layer Notes
+
+<Note>
+- **Space** and **Tab** still work in cheat layer (play/discard)
+- Rank selection for `q` requires both leaders held (to avoid conflict)
+- Use **Shift** + **b** to cycle through best hands in reverse order
+</Note>
+
+## Card Area Navigation
+
+### Leader Keys
+
+| Leader | Area | Hold + Position Key |
+|--------|------|--------------------|
+| **/** | Hand cards | Select/move hand cards |
+| **[** | Jokers | Select/sell jokers |
+| **'** | Consumables | Select/use/sell consumables |
+| **1-0** | Top area | Direct access to jokers + consumables |
+
+### Position Keys (While Holding Leader)
+
+**Same grid as hand selection:**
+```
+asdfg hjkl; yuiop qwert (QWERTY)
+```
+
+See [Keyboard Layouts](/guide/keyboard-layouts) for other layouts.
+
+### Card Actions
+
+| Key | Function | Context |
+|-----|----------|--------|
+| **Space** | Use card | Consumables with valid targets |
+| **Tab** | Sell card | When card is sellable |
+| **n** | Deselect | Clears card selection |
+| **\\** (hold) | Unacorn card | Lift card above area (anti-shuffle) |
+
+### Card Movement
+
+<Accordion title="How to Move Cards">
+1. Hold leader key (e.g., `[` for jokers)
+2. Press position key to select card (e.g., `a` for first joker)
+3. Press different position key to move it there (e.g., `f` to move to 5th position)
+4. Card will swap/shift to new position
+</Accordion>
+
+### Multi-Select (Booster Packs Only)
+
+| Keys | Function | Context |
+|------|----------|--------|
+| **Shift + /** | Multi-select hand | Tarot/Spectral packs only |
+| Position keys | Toggle cards | While holding Shift + / |
+
+## Blind Selection
+
+| Key | Function | Requirements |
+|-----|----------|-------------|
+| **Space** | Select blind | Starts the highlighted blind |
+| **Enter** | Select blind | Same as Space |
+| **s** | Skip blind | Requires skip tag |
+| **r** | Reroll boss | Requires Director's Cut/Retcon + $10 |
+
+## Shop
+
+### Shop Item Selection
+
+**Position keys work without leader (like booster packs):**
+
+```
+asdfg hjkl; yuiop qwert (selects items 1-20)
+```
+
+### Shop Actions
+
+| Key | Function | Requirements |
+|-----|----------|-------------|
+| **c** | Buy | Enough money for item |
+| **v** | Buy and use | Consumable with valid target |
+| **Tab** | Sell / Leave shop | Sell if card selected, else leave |
+| **Enter** | Leave shop | Returns to blind selection |
+| **r** | Reroll shop | Enough money for reroll cost |
+
+## Booster Packs
+
+### Pack Card Selection
+
+**Position keys work without leader:**
+
+```
+asdfg hjkl; yuiop qwert (selects cards 1-20)
+```
+
+### Pack Actions
+
+| Key | Function | Notes |
+|-----|----------|-------|
+| **Space** | Select card | Confirms pack selection |
+| **Tab** | Skip pack | Skips without selecting |
+
+### Special: Tarot & Spectral Packs
+
+These packs allow hand manipulation:
+
+| Keys | Function | Notes |
+|------|----------|-------|
+| **Shift + /** | Access hand | Multi-select mode |
+| Position keys | Toggle hand cards | While holding Shift + / |
+| **Space** | Use card | After selecting hand cards |
+
+## Round Evaluation
+
+| Key | Function | When Available |
+|-----|----------|---------------|
+| **Space** | Cash out | After round scoring completes |
+| **Enter** | Cash out | Same as Space |
+
+## Advanced: Top Area (Numbers Row)
+
+Direct access to jokers and consumables without leader keys:
+
+| Key | Slot | Contents |
+|-----|------|----------|
+| **1** | 1st | First joker (if exists) |
+| **2** | 2nd | Second joker (if exists) |
+| **3** | 3rd | Third joker (if exists) |
+| **4** | 4th | Fourth joker (if exists) |
+| **5** | 5th | Fifth joker (if exists) |
+| **6** | 6th | First consumable (if no 6th joker) |
+| **7** | 7th | Second consumable (continues...) |
+| **8-0** | Continues | Jokers then consumables |
+
+<Note>
+The number row selects from a virtual "top area" combining jokers first, then consumables. This provides quick access without leader keys.
+</Note>
+
+## Modifier Keys
+
+| Key | Function | Context |
+|-----|----------|--------|
+| **Shift** (left or right) | Multi-select | With `/` leader in packs |
+| **Shift** | Reverse cycle | With cheat layer `b` |
+| **\\** | Unacorn | Hold to lift card |
+| **Ctrl/Cmd** | Debug leader | Debug mode only (DebugPlus) |
+
+## Platform-Specific
+
+### macOS
+
+| Key | Function | Windows/Linux Equivalent |
+|-----|----------|-------------------------|
+| **Cmd** (⌘) | Debug leader | Ctrl |
+
+## State-Specific Summary
+
+<Accordion title="SPLASH">
+- **Any key** → Skip to main menu
+</Accordion>
+
+<Accordion title="MENU">
+- **Space** → Play / Continue
+- **Escape** → Close menus
+</Accordion>
+
+<Accordion title="SELECTING_HAND">
+- **asdfg hjkl;** → Toggle cards
+- **Space** → Play hand
+- **Tab** → Discard hand
+- **p/q + keys** → Cheat layer
+- **z** (hold) → Deck preview
+- **v, c, b** → Sort hand
+- **n, m** → Deselect/invert
+- **,, .** → Left 5, right 5
+</Accordion>
+
+<Accordion title="BLIND_SELECT">
+- **Space/Enter** → Select blind
+- **s** → Skip blind
+- **r** → Reroll boss
+</Accordion>
+
+<Accordion title="SHOP">
+- **asdfg hjkl;** → Select items
+- **c** → Buy
+- **v** → Buy & use
+- **r** → Reroll
+- **Tab/Enter** → Leave shop
+</Accordion>
+
+<Accordion title="STANDARD_PACK / PLANET_PACK / TAROT_PACK / SPECTRAL_PACK / BUFFOON_PACK">
+- **asdfg hjkl;** → Select pack cards
+- **Space** → Confirm selection
+- **Tab** → Skip pack
+- **Shift + /** → Access hand (Tarot/Spectral)
+</Accordion>
+
+<Accordion title="ROUND_EVAL">
+- **Space/Enter** → Cash out
+</Accordion>
+
+<Accordion title="GAME_OVER">
+- **Space** → New run
+- **Tab/Escape** → Main menu
+- **Enter** → Endless / Retry (Taikomochi)
+</Accordion>
+
+## Quick Reference: Most Used Keys
+
+<AccordionGroup>
+<Accordion title="Essential (Use Every Game)">
+- **Space** - Proceed (play/select/use)
+- **Tab** - Dismiss (discard/skip/sell)
+- **asdfg** - Select first 5 cards
+- **p + b** - Best hand (cheat layer)
+</Accordion>
+
+<Accordion title="Common (Use Often)">
+- **c** - Buy items in shop
+- **r** - Reroll shop/boss
+- **s** - Skip blind
+- **v, c, b** - Sort hand
+- **n** - Deselect all
+- **[** - Access jokers
+- **'** - Access consumables
+</Accordion>
+
+<Accordion title="Situational">
+- **z** (hold) - Deck preview
+- **m** - Invert selection
+- **,, .** - Left/right 5
+- **p + f** - Best flush
+- **\\** - Unacorn card
+- **1-0** - Quick top area access
+</Accordion>
+</AccordionGroup>
+
+## Learning Path
+
+<Steps>
+  <Step title="Start with basics">
+    Master **Space**, **Tab**, and **asdfg** for card selection
+  </Step>
+  
+  <Step title="Add cheat layer">
+    Learn **p + b** for best hand selection
+  </Step>
+  
+  <Step title="Learn card areas">
+    Practice **[** for jokers and **'** for consumables
+  </Step>
+  
+  <Step title="Master shop">
+    Use **c** to buy and **r** to reroll efficiently
+  </Step>
+  
+  <Step title="Advanced techniques">
+    Explore sorting, deck preview, and card movement
+  </Step>
+</Steps>
+
+## Printable Cheat Sheet
+
+<Accordion title="One-Page Reference (QWERTY)">
+```
+TYPIST KEYBINDINGS (QWERTY)
+═══════════════════════════════════════════════════
+
+GLOBAL
+  Space    Proceed (play/select/confirm)
+  Tab      Dismiss (discard/skip/sell/back)
+  Escape   Options menu
+  x        Run info
+
+CARD SELECTION (rounds)
+  asdfg    Cards 1-5
+  hjkl;    Cards 6-10
+  yuiop    Cards 11-15
+  qwert    Cards 16-20
+
+HAND MANAGEMENT
+  v        Sort by rank
+  c        Sort by suit  
+  b        Sort by enhancement
+  n        Deselect all
+  m        Invert selection
+  ,        Select left 5
+  .        Select right 5
+  z (hold) Deck preview
+
+CARD AREAS (hold leader + position)
+  /        Hand cards
+  [        Jokers
+  '        Consumables  
+  1-0      Top area (direct)
+  \        Unacorn (lift card)
+
+CHEAT LAYER (hold p or q)
+  b        Best hand (Shift = reverse)
+  f        Best flush
+  s/d/c/h  Select suit
+  2-9,0    Select rank
+  j/q/k/a  Face cards
+
+SHOP
+  c        Buy
+  v        Buy and use
+  r        Reroll
+
+BLIND SELECT
+  s        Skip
+  r        Reroll boss
+```
+</Accordion>

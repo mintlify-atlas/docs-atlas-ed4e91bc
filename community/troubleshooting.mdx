@@ -1,0 +1,287 @@
+---
+title: Troubleshooting
+description: Solutions to common issues with the Typist mod
+---
+
+## Installation Issues
+
+### Mod Not Loading
+
+<Warning>
+If Typist isn't loading, verify that the Lovely injector is properly installed first.
+</Warning>
+
+**Symptoms:**
+- No keyboard shortcuts work
+- Game starts normally but Typist features are missing
+- No errors displayed
+
+**Solutions:**
+
+1. **Verify Lovely Installation**
+   ```bash
+   # Check if Lovely is in your Balatro directory
+   # Windows: %AppData%/Balatro/lovely/
+   # macOS: ~/Library/Application Support/Balatro/lovely/
+   # Linux: ~/.local/share/Steam/steamapps/compatdata/2379780/pfx/drive_c/users/steamuser/AppData/Roaming/Balatro/lovely/
+   ```
+
+2. **Check Mod Directory Structure**
+   
+   Ensure your mod folder is named correctly and in the right location:
+   ```
+   Balatro/
+   └── Mods/
+       └── balatro-typist-mod/  # or typist/
+           ├── mod/
+           ├── lib/
+           ├── compat/
+           └── lovely.toml
+   ```
+
+3. **Verify lovely.toml Exists**
+   
+   The mod directory must contain a `lovely.toml` file for Lovely to recognize it.
+
+### Antivirus Blocking Installation
+
+<Warning>
+Some antivirus software may flag Lovely as suspicious because it modifies game files.
+</Warning>
+
+**Solution:**
+
+Follow the Steamodded "Step 1: Anti-virus setup" guide:
+- Add your Balatro directory to your antivirus exclusion list
+- Temporarily disable real-time protection during installation
+- Whitelist `version.dll` (Lovely's injector file)
+
+### Game Crashes on Startup
+
+**Potential Causes:**
+- Corrupted mod files
+- Incompatible game version
+- Conflicting mods
+
+**Solutions:**
+
+1. **Verify Game Version**
+   
+   Typist supports Balatro versions `1.0.1n` and `1.0.1o`. Check your game version:
+   - Steam: Right-click Balatro → Properties → Updates
+   - Game title screen shows version number
+
+2. **Test with Typist Only**
+   
+   Temporarily disable other mods to identify conflicts:
+   - Move other mods out of the `Mods/` directory
+   - Start the game with only Typist installed
+   - Re-enable mods one by one to find the conflict
+
+3. **Reinstall Typist**
+   
+   - Delete the `balatro-typist-mod` folder
+   - Download a fresh copy from GitHub
+   - Extract to the Mods directory
+
+## Keybinding Issues
+
+### Keys Not Responding
+
+**Symptoms:**
+- Some or all keybindings don't work
+- Keys work in menus but not in gameplay
+
+**Solutions:**
+
+1. **Check Keyboard Layout Setting**
+   
+   Verify you're using the correct layout. Create/edit `typist-layout` file:
+   ```
+   # In your Balatro save directory, create a file named "typist-layout"
+   # containing one of: qwerty, dvorak, workman
+   ```
+
+2. **Clear Custom Overrides**
+   
+   If you have a `typist-overrides.lua` file, try temporarily renaming it to rule out configuration errors.
+
+3. **Check for Key Conflicts**
+   
+   Some keys may be bound by:
+   - The base game
+   - Other mods
+   - Your operating system (e.g., Windows game bar, macOS shortcuts)
+
+### Wrong Keys for My Layout
+
+<Info>
+Typist maps positional keys differently based on your configured layout.
+</Info>
+
+**Solution:**
+
+Ensure your `typist-layout` file contains the correct layout name:
+- `qwerty` (default)
+- `dvorak`
+- `workman`
+
+If you're using a different layout (Colemak, AZERTY, etc.), you'll need to create custom overrides.
+
+### Number Row Not Working for Jokers/Consumables
+
+**Symptoms:**
+- Pressing 1-9 or 0 doesn't select jokers or consumables
+
+**Common Cause:**
+
+You might have too many items. The number row provides quick access to the first 10 items only.
+
+**Solutions:**
+- Use the dedicated layers instead:
+  - Hold `[` for jokers
+  - Hold `'` for consumables
+- These layers support more items than the number row
+
+## Compatibility Issues
+
+### Conflicts with DebugPlus
+
+<Info>
+Typist integrates with DebugPlus when in debug mode.
+</Info>
+
+**Expected Behavior:**
+- Hold `Ctrl` (or `Cmd` on macOS) as a leader key for debug features
+- This only activates when the game is in debug mode
+
+**If Not Working:**
+- Ensure you're using DebugPlus v1.4.x
+- Verify debug mode is enabled in Balatro
+
+### Conflicts with FlushHotkeys
+
+<Info>
+Typist automatically handles FlushHotkeys integration.
+</Info>
+
+**What Happens:**
+- FlushHotkeys' keyboard shortcuts are disabled to prevent conflicts
+- Typist uses FlushHotkeys' `select_best_hand` implementation
+- All functionality is available through Typist's cheat layer (hold `p`)
+
+**No action needed** - this is handled automatically.
+
+### Multiplayer Issues
+
+**Symptoms:**
+- Space key doesn't work correctly in multiplayer lobbies
+- Can't ready up in PvP blinds
+
+**Solution:**
+
+These behaviors are actually correct! In multiplayer:
+- `Space` in PvP blinds toggles ready state (doesn't immediately start)
+- `Space` in lobby starts the run (if you're the host)
+
+Supported versions:
+- BalatroMultiplayer v0.1.8.4
+- Versions 0.2.x
+- Private alpha builds (~1.0)
+
+## Performance Issues
+
+### Game Lag When Using Keybindings
+
+**Rare Issue:**
+Some users report slight input lag when using rapid keybindings.
+
+**Solutions:**
+
+1. **Adjust Card Hover Duration**
+   
+   The mod has a `card_hover_duration` setting (default: 10). You can modify this in your save data, though there's currently no UI for it.
+
+2. **Disable Other Mods**
+   
+   Multiple mods can compound performance issues. Test with Typist alone.
+
+3. **Check System Resources**
+   
+   Ensure your system meets Balatro's requirements and no background processes are consuming resources.
+
+## Configuration Issues
+
+### Custom Overrides Not Working
+
+**Symptoms:**
+- Created `typist-overrides.lua` but keybindings haven't changed
+
+**Solutions:**
+
+1. **Verify File Location**
+   
+   The file must be in your Balatro save directory (same location as `typist-layout`):
+   - Windows: `%AppData%/Balatro/`
+   - macOS: `~/Library/Application Support/Balatro/`
+   - Linux: Check your Steam compatdata path
+
+2. **Check Lua Syntax**
+   
+   Ensure your override file has valid Lua syntax:
+   ```lua
+   -- Example typist-overrides.lua
+   return function(M)
+     M.proceed = "return"  -- Change space to enter
+     M.dismiss = "escape"  -- Change tab to escape
+   end
+   ```
+
+3. **Restart the Game**
+   
+   Configuration files are only read on game startup.
+
+### Can't Find Save Directory
+
+**Windows:**
+```
+Press Win+R, type: %AppData%\Balatro
+```
+
+**macOS:**
+```bash
+open "~/Library/Application Support/Balatro"
+```
+
+**Linux (Steam):**
+```bash
+cd ~/.local/share/Steam/steamapps/compatdata/2379780/pfx/drive_c/users/steamuser/AppData/Roaming/Balatro
+```
+
+## Still Having Issues?
+
+If your problem isn't listed here:
+
+1. **Check GitHub Issues**
+   
+   Search the [GitHub issues](https://github.com/janw4ld/balatro-typist-mod/issues) to see if others have reported the same problem.
+
+2. **Join the Discord**
+   
+   Ask for help in [Typist's thread](https://discord.com/channels/1116389027176787968/1349532762259980308) on the official Balatro Discord.
+
+3. **Report a Bug**
+   
+   If you've found a new issue:
+   - Create a detailed bug report on [GitHub](https://github.com/janw4ld/balatro-typist-mod/issues)
+   - Include your game version, OS, installed mods, and steps to reproduce
+   - See the [Contributing Guide](/community/contributing) for more details
+
+<Info>
+When reporting issues, always include:
+- Your Balatro version (1.0.1n or 1.0.1o)
+- Your operating system
+- List of other installed mods
+- Your keyboard layout setting
+- Detailed steps to reproduce the issue
+</Info>

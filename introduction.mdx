@@ -1,0 +1,78 @@
+---
+title: What is Typist?
+description: A fully keyboard-driven user experience for Balatro
+---
+
+Typist is a mod for Balatro that implements a complete keyboard-driven interface, allowing you to play the entire game without ever touching your mouse.
+
+## Why Typist exists
+
+Balatro's default controls are heavily mouse-dependent. While this works well for casual play, it creates friction for players who:
+
+- Prefer keyboard-first workflows for faster gameplay
+- Want to minimize hand movement between mouse and keyboard
+- Use ergonomic setups where frequent mouse usage is inconvenient
+- Simply enjoy the precision and speed of keyboard controls
+
+Typist solves these problems by providing keybindings for every action in every game state.
+
+## What Typist does
+
+Typist gives you complete keyboard control over Balatro with:
+
+### Core navigation
+
+- **`space`** - The universal "proceed" button (play hand, select blind, use consumables, start runs)
+- **`tab`** - The universal "dismiss" button (discard hand, sell cards, skip packs, exit menus)
+- **`asdfgh...`** - Toggle hand cards by position
+- **Number row (1-0)** - Quick access to jokers and consumables
+
+### Advanced features
+
+- **Cardarea layers** - Hold `'` for consumables, `[` for jokers, `/` for hand cards
+- **Hand manipulation** - Sort by suit (`c`), rank (`v`), or enhancement (`b`)
+- **Quick selection** - Select leftmost 5 cards (`,`), rightmost 5 (`.`), or invert selection (`m`)
+- **Cheat layer** - Hold `p` to access helpers like best hand picker (`b`) and flush finder (`f`)
+- **Run info** - Press `x` to view run information
+
+<Info>
+Typist includes code from [DorkDad141's Keyboard Shortcuts](https://github.com/DorkDad141/keyboard-shortcuts) and [FlushHotkeys](https://github.com/Agoraaa/FlushHotkeys) for intelligent hand selection.
+</Info>
+
+## Multi-layout support
+
+Typist supports multiple keyboard layouts with smart key mapping:
+
+- **QWERTY** (default)
+- **Dvorak**
+- **Workman**
+
+Positional keys (like `asdf` for card selection) adapt to your layout, while mnemonic keys (like `r` for reroll) stay consistent.
+
+## Customization
+
+You can override any default keybinding by creating a `typist-overrides.lua` file in your Balatro directory. See the [Configuration](/guide/configuration) page for details.
+
+## What you can do
+
+With Typist, you can start a complete run from game launch to the first blind using only the `space` key. Every gameplay action—from card selection to shop purchases to boss blind choices—has a keyboard shortcut.
+
+<Note>
+Check out the [video demo](https://www.youtube.com/watch?v=k2l6-RqTk1c) to see Typist in action.
+</Note>
+
+## Next steps
+
+<Steps>
+  <Step title="Install Typist">
+    Follow the [Installation](/installation) guide to set up Typist on your platform.
+  </Step>
+  
+  <Step title="Learn the basics">
+    Read the [Quickstart](/quickstart) guide to start playing with keyboard controls.
+  </Step>
+  
+  <Step title="Master the keybindings">
+    Explore the [Keybindings](/guide/keybindings) reference to unlock advanced features.
+  </Step>
+</Steps>

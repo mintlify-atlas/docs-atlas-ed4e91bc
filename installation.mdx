@@ -1,0 +1,170 @@
+---
+title: Installation
+description: Install Typist on Windows, Mac, or Linux
+---
+
+Typist requires the `lovely` code injector to work. If you already have Steamodded installed, you can skip to [installing Typist](#install-typist).
+
+## Prerequisites
+
+### Install lovely
+
+Typist's only dependency is the `lovely` code injector, which is also required by the [Steamodded mod loader](https://github.com/Steamodded/smods).
+
+<Steps>
+  <Step title="Configure anti-virus">
+    Follow **Step 1: Anti-virus setup** from the [Steamodded installation guide](https://github.com/Steamodded/smods/wiki#how-to-install-steamodded).
+    
+    <Warning>
+    Some anti-virus software may flag `lovely` as malicious. You'll need to add an exception for it to work properly.
+    </Warning>
+  </Step>
+  
+  <Step title="Install lovely">
+    Follow **Step 2: Installing Lovely** from the [Steamodded installation guide](https://github.com/Steamodded/smods/wiki#how-to-install-steamodded).
+  </Step>
+</Steps>
+
+<Info>
+If you have Steamodded installed, you already have `lovely` and can proceed to installing Typist.
+</Info>
+
+## Install Typist
+
+### Download the mod
+
+You can get Typist in two ways:
+
+<Tabs>
+  <Tab title="Download ZIP">
+    1. Go to the [Typist GitHub repository](https://github.com/janw4ld/balatro-typist-mod)
+    2. Click the green **Code** button
+    3. Select **Download ZIP**
+    4. Extract the ZIP file
+  </Tab>
+  
+  <Tab title="Git clone">
+    ```bash
+    git clone https://github.com/janw4ld/balatro-typist-mod.git
+    ```
+  </Tab>
+</Tabs>
+
+### Install to your Mods directory
+
+Move or copy the mod folder to the appropriate location for your platform:
+
+<Tabs>
+  <Tab title="Windows">
+    Copy the mod folder to:
+    
+    ```
+    %AppData%/Balatro/Mods
+    ```
+    
+    <Info>
+    Press `Win + R`, type `%AppData%\Balatro\Mods`, and press Enter to open this folder quickly.
+    </Info>
+  </Tab>
+  
+  <Tab title="Mac">
+    Copy the mod folder to:
+    
+    ```
+    ~/Library/Application Support/Balatro/Mods
+    ```
+    
+    <Info>
+    In Finder, press `Cmd + Shift + G` and paste the path to navigate there.
+    </Info>
+  </Tab>
+  
+  <Tab title="Linux (Steam/Proton)">
+    Copy the mod folder to:
+    
+    ```
+    ~/.local/share/Steam/steamapps/compatdata/2379780/pfx/drive_c/users/steamuser/AppData/Roaming/Balatro/Mods
+    ```
+    
+    <Note>
+    This path assumes you're running Balatro through Steam with Proton.
+    </Note>
+  </Tab>
+</Tabs>
+
+### Verify installation
+
+1. Launch Balatro
+2. Press any key to skip the splash screen (this is a Typist feature!)
+3. Try pressing `space` to navigate menus
+
+If you can use keyboard controls, Typist is installed correctly.
+
+## Compatibility
+
+### Game versions
+
+Typist is compatible with:
+
+- Balatro `1.0.1n`
+- Balatro `1.0.1o`
+
+### Other mods
+
+Typist works alongside several popular mods:
+
+<Tabs>
+  <Tab title="DebugPlus">
+    **[WilsontheWolf/DebugPlus](https://github.com/WilsontheWolf/DebugPlus/releases) v1.4.x**
+    
+    - Hold `Ctrl` (or `Cmd` on Mac) as a leader key for the entire keyboard when in debug mode
+    - Typist and DebugPlus console keybinds remain available
+  </Tab>
+  
+  <Tab title="BalatroMultiplayer">
+    **[V-rtualized/BalatroMultiplayer](https://github.com/V-rtualized/BalatroMultiplayer) v0.1.8.4, 0.2.x**
+    
+    - On PvP blinds: `space` toggles ready state instead of immediately starting
+    - In lobby menu: `space` starts the run (host only)
+  </Tab>
+  
+  <Tab title="Taikomochi">
+    **[Amvoled/Taikomochi](https://github.com/Amvoled/Taikomochi) rev `26d2507`**
+    
+    - Press `Enter` on game over screen to retry the last ante in zen mode runs
+  </Tab>
+  
+  <Tab title="FlushHotkeys">
+    **[Agoraaa/FlushHotkeys](https://github.com/Agoraaa/FlushHotkeys) `4c0b1df`**
+    
+    - FlushHotkeys keyboard shortcuts are removed to prevent conflicts
+    - Typist uses FlushHotkeys' `select_best_hand` implementation
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+### Keybinds not working
+
+- Verify that `lovely` is properly installed
+- Check that the mod folder is in the correct `Mods` directory
+- Make sure you extracted the entire mod folder, not just some files
+
+### Conflicts with other mods
+
+- If you have FlushHotkeys installed, Typist will automatically handle conflicts
+- For other keyboard-related mods, you may need to disable them or adjust keybinds
+
+### Game crashes
+
+- Ensure you're running a compatible game version (`1.0.1n` or `1.0.1o`)
+- Check that all mod files are intact and not corrupted
+- Try removing other mods to isolate the issue
+
+<Info>
+For additional help, join the discussion in [Typist's thread](https://discord.com/channels/1116389027176787968/1349532762259980308) on the official [Balatro Discord](https://discord.com/invite/balatro).
+</Info>
+
+## Next steps
+
+Now that Typist is installed, head over to the [Quickstart](/quickstart) guide to learn the essential keybindings and start playing.

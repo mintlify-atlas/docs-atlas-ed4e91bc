@@ -1,80 +1,264 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quickstart guide
+description: Learn the essential Typist keybindings and start playing with keyboard controls
 ---
 
-## Get started in three steps
+This guide will get you playing Balatro with Typist's keyboard controls in minutes. You'll learn the core keybindings needed for a complete run.
 
-Get your documentation site running locally and make your first customization.
+<Info>
+All keybindings shown are for QWERTY layout. If you use Dvorak or Workman, see the [Keyboard layouts](/guide/keyboard-layouts) page for your mappings.
+</Info>
 
-### Step 1: Set up your local environment
+## The two essential keys
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
+Typist's design centers around two primary actions:
+
+<Steps>
+  <Step title="Space - Proceed">
+    **`space`** is your "yes" button. It:
     
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
+    - Plays the selected hand
+    - Selects the upcoming blind
+    - Uses consumable cards
+    - Selects highlighted pack items
+    - Starts new runs from game over screen
+    - Clicks "play" or "continue" buttons in menus
+  </Step>
+  
+  <Step title="Tab - Dismiss">
+    **`tab`** is your "no" button. It:
     
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    - Discards the selected hand
+    - Moves from shop to blind selection
+    - Sells consumable or joker cards
+    - Skips booster packs
+    - Closes overlay menus
+    - Exits to main menu from game over screen
+  </Step>
+</Steps>
 
-### Step 2: Deploy your changes
+<Note>
+You can start a complete run from game launch to the first blind using only `space`!
+</Note>
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
+## Selecting cards in hand
+
+During a round, select cards using the home row keys:
+
+```
+ a s d f g h j k l ;
+ [1][2][3][4][5][6][7][8][9][10]
+```
+
+- **`a`** toggles the first card
+- **`s`** toggles the second card
+- **`d`** toggles the third card
+- And so on...
+
+### Quick selection helpers
+
+These keys help you select multiple cards at once:
+
+- **`,`** - Select the leftmost 5 cards
+- **`.`** - Select the rightmost 5 cards
+- **`n`** - Deselect all cards
+- **`m`** - Invert card selection
+
+<Note>
+These positional keys adapt to your keyboard layout, so Dvorak users would use `aoeu` for the first four cards instead of `asdf`.
+</Note>
+
+## Playing a round
+
+<Steps>
+  <Step title="Start the blind">
+    Press **`space`** to select and start a blind.
+  </Step>
+  
+  <Step title="Select your hand">
+    Use **`asdfgh...`** to toggle cards you want to play.
     
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    Or use quick selectors:
+    - **`,`** for leftmost 5
+    - **`.`** for rightmost 5
+  </Step>
+  
+  <Step title="Play or discard">
+    - **`space`** to play the selected hand
+    - **`tab`** to discard the selected hand
+  </Step>
+  
+  <Step title="Repeat">
+    Keep playing or discarding until you beat the blind or run out of hands.
+  </Step>
+</Steps>
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+## Using the shop
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+Navigate and purchase items without your mouse:
 
-### Step 3: Go live
+- **`asdfgh...`** or **number keys (1-0)** - Select items in the shop
+- **`c`** - Buy the selected item/pack/voucher
+- **`v`** - Buy and immediately use the selected item (or buy pack/voucher)
+- **`r`** - Reroll the shop
+- **`tab`** - Leave the shop and proceed to blind selection
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+<Info>
+In the shop, the number row gives you quick access to all slots without needing to use leader keys.
+</Info>
+
+## Managing jokers and consumables
+
+Typist uses "leader keys" to access different card areas:
+
+### Consumables (Tarot, Planet, Spectral)
+
+Hold **`'`** (apostrophe) + a selection key:
+
+```
+Hold ' + a = Select first consumable
+Hold ' + s = Select second consumable
+```
+
+Then:
+- **`space`** to use the selected consumable
+- **`tab`** to sell it
+
+### Jokers
+
+Hold **`[`** (left bracket) + a selection key:
+
+```
+Hold [ + a = Select first joker
+Hold [ + s = Select second joker
+```
+
+Then:
+- **`tab`** to sell the selected joker
+- **`\`** while selected to drag it out (useful for Amber Acorn boss!)
+
+### Quick access with number row
+
+For faster access, use the number keys without a leader:
+
+- **`1-5`** typically maps to your jokers
+- **`6-0`** typically maps to your consumables
+
+This varies based on how many cards you have in each area.
+
+## Hand manipulation
+
+Organize your hand for better decision-making:
+
+- **`c`** - Sort by suit
+- **`v`** - Sort by rank
+- **`b`** - Sort by enhancement and score (glass cards to end, lucky/mult cards to beginning)
+
+<Note>
+These are mnemonic keys that don't change across keyboard layouts.
+</Note>
+
+## The cheat layer
+
+Typist includes helpers for finding the best hand to play:
+
+Hold **`p`** (cheat layer leader) + action key:
+
+- **`p + b`** - Select the best hand from available cards
+- **`p + f`** - Fish for the best flush in hand
+- **`p + s/d/c/h`** - Find flush in specific suit (Spades/Diamonds/Clubs/Hearts)
+
+<Warning>
+These helpers make decisions for you. Use them to learn or to speed up gameplay, but be aware they may not always align with your strategy (especially regarding discards and joker synergies).
+</Warning>
+
+## Additional useful keys
+
+- **`x`** - View run info (when available)
+- **`z`** - Hold to preview your deck
+- **`s`** - Skip blinds (when you have a skip tag)
+- **`r`** - Reroll shop or boss blind options
+- **`Escape`** - Open options menu
+
+## Opening booster packs
+
+When you open a booster pack:
+
+1. Use **`asdfgh...`** to select cards from the pack
+2. Hold **`Shift + /`** to select cards from your hand (for Arcana/Spectral packs)
+3. Press **`space`** to confirm selection
+4. Press **`tab`** to skip the pack
+
+<Note>
+Booster pack hand manipulation is currently a bit clunky and may be redesigned in future versions.
+</Note>
+
+## Complete example run
+
+Here's a typical early-game round flow:
+
+<Steps>
+  <Step title="Select blind">
+    Press **`space`** to start the small blind.
+  </Step>
+  
+  <Step title="First hand">
+    Press **`p + b`** to let Typist select the best hand.
+    
+    Press **`space`** to play it.
+  </Step>
+  
+  <Step title="Second hand">
+    Press **`,`** to select leftmost 5 cards.
+    
+    Press **`space`** to play.
+  </Step>
+  
+  <Step title="Beat the blind">
+    Continue playing hands until you win.
+  </Step>
+  
+  <Step title="Visit shop">
+    Press **`a`** to select first shop item.
+    
+    Press **`c`** to buy it.
+    
+    Press **`tab`** to leave the shop.
+  </Step>
+  
+  <Step title="Repeat">
+    Press **`space`** to select the next blind and continue.
+  </Step>
+</Steps>
+
+## Changing keyboard layout
+
+If you use Dvorak or Workman instead of QWERTY:
+
+1. Create a file named `typist-layout` in your Balatro directory (same location as the `Mods` folder)
+2. Write either `dvorak` or `workman` in the file (no spaces or extra lines)
+3. Restart Balatro
+
+See `~/Library/Application Support/Balatro/` (Mac) or `%AppData%/Balatro/` (Windows) or the Proton prefix path (Linux).
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
+You now know enough to play a complete run with keyboard controls!
 
-<CardGroup cols={2}>
+<Steps>
+  <Step title="Practice">
+    Start a run and practice the core keybindings until they feel natural.
+  </Step>
+  
+  <Step title="Explore advanced features">
+    Check out the complete [Keybindings reference](/guide/keybindings) to discover advanced features like moving cards and custom overrides.
+  </Step>
+  
+  <Step title="Customize">
+    Learn how to create your own keybind overrides in the [Configuration](/guide/configuration) guide.
+  </Step>
+</Steps>
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+<Info>
+For visual learners, watch the [video demo](https://www.youtube.com/watch?v=k2l6-RqTk1c) to see these keybindings in action.
+</Info>
