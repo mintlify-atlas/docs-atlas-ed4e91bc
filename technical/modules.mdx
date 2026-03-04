@@ -445,6 +445,28 @@ Orders cards: Holo → Lucky → Mult → Foil → Bonus → Normal → Polychro
 
 This ordering helps trigger effects in optimal sequence.
 
+### hand.best_high_card
+
+Selects the best single card (topped up with stone cards).
+
+```lua
+hand.best_high_card()
+```
+
+**Behavior:**
+Finds the highest-value card in hand and selects it, filling remaining slots with stone cards if available.
+
+### hand.worst_high_card
+
+Selects the worst single card (topped up with stone cards).
+
+```lua
+hand.worst_high_card()
+```
+
+**Behavior:**
+Finds the lowest-value card in hand and selects it, filling remaining slots with stone cards if available.
+
 ## Utilities
 
 ### tblutils (tu)
