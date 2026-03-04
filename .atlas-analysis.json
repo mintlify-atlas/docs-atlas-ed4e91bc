@@ -1,0 +1,64 @@
+{
+  "projectType": "general",
+  "projectName": "Typist",
+  "projectDescription": "A keyboard-driven UX mod for Balatro with vim-inspired keybindings and multi-layout support.",
+  "theme": "aspen",
+  "primaryColor": "#242b2c",
+  "lightColor": "#040404",
+  "darkColor": null,
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "installation",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "User Guide",
+        "pages": [
+          "guide/features",
+          "guide/keyboard-layouts",
+          "guide/keybindings",
+          "guide/configuration"
+        ]
+      },
+      {
+        "group": "Technical",
+        "pages": [
+          "technical/architecture",
+          "technical/modules",
+          "technical/compatibility"
+        ]
+      },
+      {
+        "group": "Community",
+        "pages": [
+          "community/faq",
+          "community/troubleshooting",
+          "community/contributing"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Fully keyboard-driven gameplay with vim-inspired keybindings",
+    "Support for QWERTY, Dvorak, and Workman keyboard layouts",
+    "Card area layers for jokers, consumables, and hand management",
+    "Cheat layer for quick hand selection (best hand, best flush)",
+    "Custom keybind override system",
+    "Compatibility with popular Balatro mods (DebugPlus, Multiplayer, Taikomochi)"
+  ],
+  "publicApiSurface": [
+    "G.__typist_TOP_AREA - Pseudo-CardArea for jokers and consumables",
+    "G.SETTINGS.__typist - Mod settings object",
+    "CardArea.__typist_toggle_card_by_index(area, index) - Toggle card selection",
+    "layout.free_select_map - Card position to key mapping",
+    "layout.cardarea_map - Leader keys for card areas",
+    "layout.global_map - Global keybindings",
+    "state_handlers[G.STATE](key, held_keys) - State-specific key handlers",
+    "cardarea_handler(area, key, held_keys) - Card area key handler"
+  ]
+}
